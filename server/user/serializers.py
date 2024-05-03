@@ -21,13 +21,13 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'password': ['Пароль не должен быть короче 8 символов']})
 
         if any(partOfName in password for partOfName in splitedFullName):
-            raise serializers.ValidationError({'password': ['Пароль не должен содержать ваше полное имя']})
+            raise serializers.ValidationError({'password': ['Пароль не должен содержать полное имя']})
 
         if login in password:
-            raise serializers.ValidationError({'password': ['Праоль не должен содержать ваш логин']})
+            raise serializers.ValidationError({'password': ['Праоль не должен содержать логин']})
 
         if email in password:
-            raise serializers.ValidationError({'password': ['Пароль не должен содержать ваш email адрес']})
+            raise serializers.ValidationError({'password': ['Пароль не должен содержать email адрес']})
 
         if not any(char.isupper() for char in password):
             raise serializers.ValidationError({'password': ['Пароль должен содержать хотябы одну заглавную букву']})
@@ -48,3 +48,15 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['login', 'password']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ['login', 'email', 'password']
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ['is_superuser', 'is_staff', 'is_worker', 'password', 'last_login']
