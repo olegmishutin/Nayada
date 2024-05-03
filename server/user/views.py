@@ -36,13 +36,23 @@ class LogoutUserView(APIView):
 
 
 class UsersViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
     permission_classes = [permissions.IsAdminUser]
 
+    def get_queryset(self):
+        queryset = users = User.objects.all().defer('login', 'email', 'password')
+
+        search = self.request.query_params.get('search')
+        if search:
+            users = queryset.filter(full_name__icontains=search)
+
+            if not users.exists():
+                users = queryset.filter(email__icontains=search)
+        return users
+
 
 class ProfileView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
+    queryset = User.objects.all().defer('is_superuser', 'is_staff', 'is_worker', 'password', 'last_login')
     serializer_class = serializers.ProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
 
