@@ -5,10 +5,9 @@ from django.db import models
 class Product(models.Model):
     name = models.CharField(max_length=154)
     price = models.FloatField()
-    weight = models.FloatField(null=True, blank=True)
     short_description = models.TextField(null=True, blank=True)
+    info = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
-    count = models.BigIntegerField()
 
     class Meta:
         db_table = 'Product'

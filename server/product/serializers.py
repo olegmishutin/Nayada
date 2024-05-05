@@ -28,5 +28,4 @@ class ProductSerializer(serializers.ModelSerializer):
 
         for photo in photos:
             ProductPhoto.objects.create(product=product, **photo)
-
         return product

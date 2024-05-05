@@ -6,18 +6,21 @@ from .managers import OrderManager
 
 class Order(models.Model):
     statuses = {
+        'Н': 'Не одобрено',
         'Р': 'Рассмотрение',
         'С': 'Склад',
         'Д': 'Доставка',
-        'П': 'Получено'
+        'П': 'Получено',
     }
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    identification_number = models.BigIntegerField(default=0, unique=True)
-    creation_time = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=46, choices=statuses, default=statuses['Р'])
+    user = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE, editable=False)
+    identification_number = models.BigIntegerField(default=0, unique=True, editable=False)
+    creation_time = models.DateTimeField(auto_now_add=True, editable=False)
+    status = models.CharField(max_length=46, choices=statuses, default='Р')
     comment = models.TextField(null=True, blank=True)
-    products = models.ManyToManyField(Product, related_name='orders', db_table='OrderProduct')
+    products = models.ManyToManyField(Product, related_name='orders', through='OrderProduct', editable=False)
+    price = models.FloatField(default=0, editable=False)
+    place = models.TextField()
 
     objects = OrderManager()
 
@@ -28,6 +31,17 @@ class Order(models.Model):
 
     def __str__(self):
         return self.identification_number
+
+
+class OrderProduct(models.Model):
+    order = models.ForeignKey(Order, related_name='orderProduct', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='orderProduct', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'OrderProduct'
+        verbose_name = 'Продукт заказа'
+        verbose_name_plural = 'Продукты заказов'
+        unique_together = []
 
 
 class Category(models.Model):
