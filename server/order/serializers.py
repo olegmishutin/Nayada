@@ -12,7 +12,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class UserOrderSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
-    status = serializers.ReadOnlyField()
+    status = serializers.ReadOnlyField(source='get_status_display')
     categories = CategorySerializer(many=True, read_only=True)
     products = ProductSerializer(many=True, read_only=True)
 
@@ -22,14 +22,14 @@ class UserOrderSerializer(serializers.ModelSerializer):
         depth = 1
 
     def to_internal_value(self, data):
-        newData = super(UserOrderSerializer, self).to_internal_value(data)
-
+        returnedData = super(UserOrderSerializer, self).to_internal_value(data)
         products = data.get('products')
-        if not products:
-            raise serializers.ValidationError({'products': ['Не выбрано ни одного продукта']})
 
-        newData.update({'products': products})
-        return newData
+        if products:
+            returnedData.update({'products': products})
+
+            return returnedData
+        raise serializers.ValidationError({'products': ['Не выбрано ни одного продукта']})
 
     def addProductsInOrder(self, order, products):
         orderProducts = [OrderProduct(order=order, product_id=product) for product in products]
@@ -68,9 +68,9 @@ class WorkOrderSerializer(serializers.ModelSerializer):
         depth = 1
 
     def to_internal_value(self, data):
-        newData = super(WorkOrderSerializer, self).to_internal_value(data)
-        newData.update({'categories': data.get('categories')})
-        return newData
+        returnedData = super(WorkOrderSerializer, self).to_internal_value(data)
+        returnedData.update({'categories': data.get('categories')})
+        return returnedData
 
     def update(self, instance, validated_data):
         categories = validated_data.pop('categories', [])

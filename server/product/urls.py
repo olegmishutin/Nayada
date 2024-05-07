@@ -9,14 +9,8 @@ router.register('admin-products', views.ProductViewSet, basename='admin-products
 app_name = 'product'
 urlpatterns = [
     path('', include(router.urls)),
-    path('admin-product-photos/', views.ProductPhotoViewSet.as_view({
-        'post': 'create'
-    })),
-    path('admin-product-photo/<int:pk>/', views.ProductPhotoViewSet.as_view({
-        'delete': 'destroy'
-    })),
+    path('admin-product-photos/', views.ProductPhotoViewSet.as_view({'post': 'create'})),
+    path('admin-product-photo/<int:pk>/', views.ProductPhotoViewSet.as_view({'delete': 'destroy'})),
     path('products/', views.ProductViewSet.as_view(
-        {'get': 'list'},
-        permission_classes=[IsAuthenticated]
-    ), name='products'),
+        {'get': 'list'}, permission_classes=[IsAuthenticated]), name='products'),
 ]

@@ -3,20 +3,15 @@ from .models import Product, ProductPhoto
 
 
 class ProductPhotoSerializer(serializers.ModelSerializer):
-    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), required=False)
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
 
     class Meta:
         model = ProductPhoto
         fields = '__all__'
 
-    def create(self, validated_data):
-        if 'product' in validated_data:
-            return super(ProductPhotoSerializer, self).create(validated_data)
-        raise serializers.ValidationError({'product': ['Обязательное к указанию поле']})
-
 
 class ProductSerializer(serializers.ModelSerializer):
-    photos = ProductPhotoSerializer(many=True)
+    photos = ProductPhotoSerializer(many=True, required=False)
 
     class Meta:
         model = Product
