@@ -32,6 +32,21 @@ class Order(models.Model):
         return self.identification_number
 
 
+class OrderRequest(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    identification_number = models.BigIntegerField(default=0, unique=True, editable=False)
+
+    objects = OrderManager()
+
+    class Meta:
+        db_table = 'OrderRequest'
+        verbose_name = 'Запрос на заказ'
+        verbose_name_plural = 'Запросы на заказы'
+
+    def __str__(self):
+        return self.identification_number
+
+
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, related_name='orderProduct', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='orderProduct', on_delete=models.CASCADE)

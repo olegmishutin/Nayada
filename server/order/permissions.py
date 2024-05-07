@@ -11,7 +11,7 @@ class IsOwnerAndSafeStatus(BasePermission):
         if request.method in safeMethods:
             return True
 
-        if request.user == obj.user and obj.status not in ['Д']:
+        if request.user == obj.user and obj.status != 'О':
             return True
         return False
 
