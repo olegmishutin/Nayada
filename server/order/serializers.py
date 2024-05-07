@@ -31,18 +31,32 @@ class UserOrderSerializer(serializers.ModelSerializer):
             return returnedData
         raise serializers.ValidationError({'products': ['Не выбрано ни одного продукта']})
 
-    def addProductsInOrder(self, order, products):
-        orderProducts = [OrderProduct(order=order, product_id=product) for product in products]
-        OrderProduct.objects.bulk_create(orderProducts)
+    def addProductsInOrder(self, order, products, oldProducts=None):
+        request = self.context['request']
 
+        OrderProduct.objects.bulk_create([OrderProduct(order=order, product_id=product) for product in products])
         order.price = order.products.all().aggregate(priceSum=Sum('price'))['priceSum']
-        order.save(update_fields=['price'])
+
+        if order.price >= 500 and order.price <= 100000:
+            order.save(update_fields=['price'])
+            return order
+
+        if request.method == 'POST':
+            order.delete()
+
+        elif request.method == 'PATCH' or request.method == 'PUT':
+            order.products.clear()
+            OrderProduct.objects.bulk_create([OrderProduct(order=order, product_id=product) for product in oldProducts])
+
+        raise serializers.ValidationError(
+            {'message': 'Стоимость заказа должна начинаться с 500р и быть не больше 100000р'})
 
     def update(self, instance, validated_data):
         products = validated_data.pop('products', [])
+        oldProductsIds = list(instance.products.all().values_list('id', flat=True))
 
         instance.products.clear()
-        self.addProductsInOrder(instance, products)
+        self.addProductsInOrder(instance, products, oldProductsIds)
 
         return super(UserOrderSerializer, self).update(instance, validated_data)
 
@@ -52,8 +66,7 @@ class UserOrderSerializer(serializers.ModelSerializer):
         products = validated_data.pop('products', [])
         order = Order.objects.create(user=user, **validated_data)
 
-        self.addProductsInOrder(order, products)
-        return order
+        return self.addProductsInOrder(order, products)
 
 
 class WorkOrderSerializer(serializers.ModelSerializer):

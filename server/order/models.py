@@ -6,17 +6,16 @@ from .managers import OrderManager
 
 class Order(models.Model):
     statuses = {
-        'Н': 'Не одобрено',
-        'Р': 'Рассмотрение',
-        'С': 'Склад',
-        'Д': 'Доставка',
-        'П': 'Получено',
+        'Н': 'Новый',
+        'О': 'В обработке',
+        'В': 'Выполнен',
+        'ОТ': 'Отменен'
     }
 
     user = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE, editable=False)
     identification_number = models.BigIntegerField(default=0, unique=True, editable=False)
     creation_time = models.DateTimeField(auto_now_add=True, editable=False)
-    status = models.CharField(max_length=46, choices=statuses, default='Р')
+    status = models.CharField(max_length=46, choices=statuses, default='Н')
     comment = models.TextField(null=True, blank=True)
     products = models.ManyToManyField(Product, related_name='orders', through='OrderProduct', editable=False)
     price = models.FloatField(default=0, editable=False)
