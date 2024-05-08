@@ -33,8 +33,16 @@ class Order(models.Model):
 
 
 class OrderRequest(models.Model):
-    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    statuses = {
+        'Н': 'Новый',
+        'О': 'В обработке',
+        'Р': 'Решен',
+        'ОТ': 'Отклонен'
+    }
+
+    order = models.OneToOneField(Order, related_name='request', on_delete=models.CASCADE)
     identification_number = models.BigIntegerField(default=0, unique=True, editable=False)
+    status = models.CharField(max_length=46, choices=statuses, default='Н')
 
     objects = OrderManager()
 

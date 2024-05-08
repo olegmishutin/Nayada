@@ -1,6 +1,6 @@
 from django.db.models import Sum
 from rest_framework import serializers
-from .models import Order, OrderProduct, Category
+from .models import Order, OrderProduct, Category, OrderRequest
 from product.serializers import ProductSerializer
 
 
@@ -11,14 +11,13 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class UserOrderSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
     status = serializers.ReadOnlyField(source='get_status_display')
     categories = CategorySerializer(many=True, read_only=True)
     products = ProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
-        fields = '__all__'
+        exclude = ['user']
         depth = 1
 
     def to_internal_value(self, data):
@@ -66,14 +65,16 @@ class UserOrderSerializer(serializers.ModelSerializer):
         products = validated_data.pop('products', [])
         order = Order.objects.create(user=user, **validated_data)
 
+        OrderRequest.objects.create(order=order)
         return self.addProductsInOrder(order, products)
 
 
 class WorkOrderSerializer(serializers.ModelSerializer):
-    comment = serializers.ReadOnlyField()
-    place = serializers.ReadOnlyField()
+    user = serializers.SlugRelatedField(slug_field='full_name', read_only=True)
     categories = CategorySerializer(many=True, read_only=True)
     products = ProductSerializer(many=True, read_only=True)
+    comment = serializers.ReadOnlyField()
+    place = serializers.ReadOnlyField()
 
     class Meta:
         model = Order
@@ -92,3 +93,20 @@ class WorkOrderSerializer(serializers.ModelSerializer):
             instance.categories.add(*categories)
 
         return super(WorkOrderSerializer, self).update(instance, validated_data)
+
+
+class UserOrderRequestSerializer(serializers.ModelSerializer):
+    order = UserOrderSerializer(read_only=True)
+    status = serializers.ReadOnlyField(source='get_status_display')
+
+    class Meta:
+        model = OrderRequest
+        fields = '__all__'
+
+
+class WorkerOrderRequestSerializer(serializers.ModelSerializer):
+    order = WorkOrderSerializer(read_only=True)
+
+    class Meta:
+        model = OrderRequest
+        fields = '__all__'

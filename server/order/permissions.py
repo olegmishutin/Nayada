@@ -14,12 +14,3 @@ class IsOwnerAndSafeStatus(BasePermission):
         if request.user == obj.user and obj.status != 'О':
             return True
         return False
-
-
-class WorkerOrderPermission(BasePermission):
-    def has_permission(self, request, view):
-        safeMethods = ('GET', 'HEAD', 'OPTIONS', 'PUT', 'PATCH')
-
-        if request.method in safeMethods:
-            return True
-        return False
