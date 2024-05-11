@@ -24,6 +24,7 @@ class Product(models.Model):
         return self.name
 
 
+# Метод  для определения того, в какую папку будет сохранена фотография
 def save_product_photo(instance, filename):
     return f'product_{instance.product.id}_photos/{filename}'
 

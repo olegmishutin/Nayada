@@ -1,6 +1,7 @@
 import configparser
 from pathlib import Path
 
+# Папки сервера и папка всего проекта
 SERVER_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = SERVER_DIR.parent
 
@@ -10,6 +11,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'user.User'
 
+# Приложения, которые связывеются с главным (главное - server)
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,6 +26,7 @@ INSTALLED_APPS = [
     'order'
 ]
 
+# Настройки для рест-фреймворка
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 30
@@ -42,6 +45,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'server.urls'
 
+# Настройки для HTML шаблонов
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -60,10 +64,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
+# Считиваем конфиг БД из файла db.ini
 config = configparser.ConfigParser()
 config.read(SERVER_DIR / 'db.ini')
 dbConf = config['DB_CONF']
 
+# Настройки для БД
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -98,9 +104,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/'  # url до статических файлов (js, css, картинки, видео и тд)
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = SERVER_DIR / 'media/'
+MEDIA_URL = 'media/'  # url до файлов медиа (которые может добавлять, удалять пользователь)
+MEDIA_ROOT = SERVER_DIR / 'media/'  # Путь до папки медиа
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

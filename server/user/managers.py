@@ -2,6 +2,7 @@ from django.contrib.auth.models import UserManager
 from django.contrib.auth.hashers import make_password
 
 
+# Менеджер пользователя
 class CustomUserManager(UserManager):
     def _create_user(self, login, email, password, **extra_fields):
         email = self.normalize_email(email)

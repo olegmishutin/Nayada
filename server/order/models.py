@@ -5,6 +5,7 @@ from .managers import OrderManager
 
 
 class Order(models.Model):
+    # Нобор выборочных полей, который используется для choices далее
     statuses = {
         'Н': 'Новый',
         'О': 'В обработке',
@@ -55,6 +56,7 @@ class OrderRequest(models.Model):
         return self.identification_number
 
 
+# Промежуточная модель для отношения многие ко многим
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, related_name='orderProduct', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='orderProduct', on_delete=models.CASCADE)

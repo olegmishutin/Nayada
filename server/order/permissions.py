@@ -3,7 +3,7 @@ from .models import Order
 
 
 class IsOwnerAndSafeStatus(BasePermission):
-    message = 'Невозможно удалить или отредактировать заказ, если он находится в доставке или вы не являетесь его владельцем'
+    message = 'Статус заказа не позволяет проводить над ним изменения'
 
     def has_object_permission(self, request, view, obj):
         safeMethods = ('GET', 'HEAD', 'OPTIONS', 'POST')
@@ -11,6 +11,6 @@ class IsOwnerAndSafeStatus(BasePermission):
         if request.method in safeMethods:
             return True
 
-        if request.user == obj.user and obj.status != 'О':
+        if request.user == obj.user and obj.status not in ['О', 'ОТ']:
             return True
         return False
