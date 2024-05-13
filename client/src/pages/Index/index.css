@@ -1,0 +1,8 @@
+.index{
+    display: flex;
+}
+
+.index__detail{
+    padding: 20px;
+    box-sizing: border-box;
+}
