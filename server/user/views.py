@@ -1,10 +1,25 @@
 from rest_framework import generics, permissions, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from rest_framework import status
 from django.contrib.auth import authenticate, login as djangoLogin, logout
 from .models import User
 from . import serializers
+
+
+@api_view(['GET'])
+def getUserType(request, format=None):
+    user = request.user
+
+    if user.is_authenticated:
+        if user.is_staff:
+            return Response({'user_type': 'staff'}, status=status.HTTP_200_OK)
+        elif user.is_worker:
+            return Response({'user_type': 'worker'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'user_type': 'user'}, status=status.HTTP_200_OK)
+    return Response({'user_type': 'anon'}, status=status.HTTP_200_OK)
 
 
 # Конечная точка API (представление) для регистрации пользотвателя
