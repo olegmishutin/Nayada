@@ -5,6 +5,8 @@ from .models import User
 
 # Сериалайзер для регистрации пользователя (принимает, возвращает и обрабатывает данные, проводит операции с БД)
 class RegisterSerializer(serializers.ModelSerializer):
+    login = serializers.CharField(max_length=128, required=True)
+
     class Meta:
         model = User  # Какая модель используется
         fields = ['login', 'email', 'password', 'full_name']  # Какие поля модели используются
@@ -27,7 +29,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'password': ['Пароль не должен содержать полное имя']})
 
         if login in password:
-            raise serializers.ValidationError({'password': ['Праоль не должен содержать логин']})
+            raise serializers.ValidationError({'password': ['Пароль не должен содержать логин']})
 
         if email in password:
             raise serializers.ValidationError({'password': ['Пароль не должен содержать email адрес']})
@@ -47,7 +49,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 # Сериалайзер для логирования пользователя (здесь просто проверяется, что данные введены правильно)
 class LoginSerializer(serializers.ModelSerializer):
-    login = serializers.CharField(required=True)
+    login = serializers.CharField(max_length=128, required=True)
 
     class Meta:
         model = User

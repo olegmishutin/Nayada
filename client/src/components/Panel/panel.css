@@ -1,5 +1,6 @@
 .panel{
     width: 350px;
+    min-width: 350px;
     height: 100vh;
     background-color: #1D1D1D;
     color: white;
