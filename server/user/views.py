@@ -55,7 +55,7 @@ class LogoutUserView(APIView):
     # Обработчик метода запроса GET
     def get(self, request, format=None):
         logout(request)  # Выход из системы
-        return Response({'message': 'Успешно вышли из системы'})
+        return Response({'message': 'Успешно вышли из системы'}, status=status.HTTP_200_OK)
 
 
 # Конечная точка API (представление) для управления пользователями админом

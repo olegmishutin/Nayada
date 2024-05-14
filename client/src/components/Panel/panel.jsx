@@ -40,7 +40,7 @@ export default function Panel() {
                                 <p>Пользователь</p>
                                 <li>
                                     <img src={profile} alt='profile'/>
-                                    <Link to={'/'} className='link'>Профиль</Link>
+                                    <Link to={'me/'} className='link'>Профиль</Link>
                                 </li>
                                 <li>
                                     <img src={request} alt='request'/>
