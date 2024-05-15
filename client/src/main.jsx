@@ -5,6 +5,7 @@ import Index from "./pages/Index/index.jsx";
 import Registration from "./pages/Registration/registration.jsx";
 import Login from "./pages/Login/login.jsx";
 import Profile from "./pages/Profile/profile.jsx";
+import Orders from "./pages/Orders/orders.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Index/>,
         children: [
+            {
+                path: '/',
+                element: <Orders/>
+            },
             {
                 path: 'registration/',
                 element: <Registration/>

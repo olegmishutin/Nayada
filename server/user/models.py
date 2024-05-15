@@ -14,7 +14,7 @@ class User(AbstractBaseUser):
     photo = models.ImageField(upload_to='users_photos/', null=True, blank=True)
     telephone = models.BigIntegerField(null=True, blank=True)
 
-    login = models.CharField(max_length=128, unique=True, db_index=True, editable=False)
+    login = models.CharField(max_length=128, unique=True, db_index=True)
     email = models.EmailField()
 
     USERNAME_FIELD = 'login'

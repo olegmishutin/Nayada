@@ -5,8 +5,6 @@ from .models import User
 
 # Сериалайзер для регистрации пользователя (принимает, возвращает и обрабатывает данные, проводит операции с БД)
 class RegisterSerializer(serializers.ModelSerializer):
-    login = serializers.CharField(max_length=128, required=True)
-
     class Meta:
         model = User  # Какая модель используется
         fields = ['login', 'email', 'password', 'full_name']  # Какие поля модели используются
@@ -49,17 +47,31 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 # Сериалайзер для логирования пользователя (здесь просто проверяется, что данные введены правильно)
 class LoginSerializer(serializers.ModelSerializer):
-    login = serializers.CharField(max_length=128, required=True)
+    login = serializers.ReadOnlyField()
 
     class Meta:
         model = User
         fields = ['login', 'password']
 
+    def to_internal_value(self, data):
+        login = data.get('login')
+        returnData = super(LoginSerializer, self).to_internal_value(data)
+
+        returnData.update({'login': login})
+        return data
+
+    def validate(self, data):
+        login = data.get('login')
+        if not login:
+            raise serializers.ValidationError({'login': ['Это поле не может быть пустым.']})
+
+        data = super(LoginSerializer, self).validate(data)
+        data.update({'login': login})
+        return data
+
 
 # Сериалайзер для управления пользователями админом
 class UserSerializer(serializers.ModelSerializer):
-    login = serializers.CharField(
-        required=True, max_length=128, validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField(max_length=128, write_only=True)  # Пароль доступен только для записи
 
     class Meta:

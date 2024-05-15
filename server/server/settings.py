@@ -9,6 +9,11 @@ SECRET_KEY = 'django-insecure-n5bvjs3(m760@tss6+)wrnjl034mx6kq%52uz04j%q!z!*^ny!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://localhost:5173'
+]
+CORS_ORIGIN_ALLOW_ALL = True
 AUTH_USER_MODEL = 'user.User'
 
 # Приложения, которые связывеются с главным (главное - server)

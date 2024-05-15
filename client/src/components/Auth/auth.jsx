@@ -10,7 +10,7 @@ export default function Auth(props) {
                         <p>{props.status}</p>
                     </form>
                     <div className="auth__box__image">
-                        <img src={props.authImage} alt='reg image'/>
+                        <img src={props.authImage} alt='reg image' loading='lazy'/>
                     </div>
                 </div>
             </div>

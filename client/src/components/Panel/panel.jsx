@@ -7,6 +7,8 @@ import profile from '../../images/Panel/profile.png'
 import request from '../../images/Panel/request.png'
 import order from '../../images/Panel/order.png'
 import products from '../../images/Panel/products.png'
+import login from '../../images/Panel/login.png'
+import registration from '../../images/Panel/registration.png'
 import './panel.css'
 
 export default function Panel() {
@@ -29,9 +31,9 @@ export default function Panel() {
     return (
         <>
             <div className="panel">
-                <div className="panel__logo">
-                    <img src={logo} alt='logo'/>
-                </div>
+                <Link to={'/'} className="panel__logo">
+                    <img src={logo} alt='logo' loading='lazy'/>
+                </Link>
                 <h1>Order Book</h1>
                 <nav className='panel__nav'>
                     <ul className='panel__nav__list'>
@@ -39,28 +41,25 @@ export default function Panel() {
                             <>
                                 <p>Пользователь</p>
                                 <li>
-                                    <img src={profile} alt='profile'/>
+                                    <img src={profile} alt='profile' loading='lazy'/>
                                     <Link to={'me/'} className='link'>Профиль</Link>
                                 </li>
                                 <li>
-                                    <img src={request} alt='request'/>
-                                    <Link to={'/'} className='link'>Сделать запрос</Link>
-                                </li>
-                                <li>
-                                    <img src={request} alt='request'/>
+                                    <img src={request} alt='request' loading='lazy'/>
                                     <Link to={'/'} className='link'>Мои запросы</Link>
                                 </li>
                                 <li>
-                                    <img src={order} alt='order'/>
+                                    <img src={order} alt='order' loading='lazy'/>
                                     <Link to={'/'} className='link'>Мои заказы</Link>
                                 </li>
                             </> :
                             <>
-                                <p>Анонимный пользователь</p>
                                 <li>
+                                    <img src={login} alt='request' loading='lazy'/>
                                     <Link to={'login/'} className='link'>Войти</Link>
                                 </li>
                                 <li>
+                                    <img src={registration} alt='request' loading='lazy'/>
                                     <Link to={'registration/'} className='link'>Зарегистрироваться</Link>
                                 </li>
                             </>
@@ -69,11 +68,11 @@ export default function Panel() {
                             <>
                                 <p>Работник</p>
                                 <li>
-                                    <img src={request} alt='request'/>
+                                    <img src={request} alt='request' loading='lazy'/>
                                     <Link to={'/'} className='link'>Управление запросами</Link>
                                 </li>
                                 <li>
-                                    <img src={order} alt='order'/>
+                                    <img src={order} alt='order' loading='lazy'/>
                                     <Link to={'/'} className='link'>Управление заказами</Link>
                                 </li>
                             </> : ''
@@ -82,11 +81,11 @@ export default function Panel() {
                             <>
                                 <p>Администратор</p>
                                 <li>
-                                    <img src={profile} alt='profile'/>
+                                    <img src={profile} alt='profile' loading='lazy'/>
                                     <Link to={'/'} className='link'>Управление пользователями</Link>
                                 </li>
                                 <li>
-                                    <img src={products} alt='products'/>
+                                    <img src={products} alt='products' loading='lazy'/>
                                     <Link to={'/'} className='link'>Управление продуктами</Link>
                                 </li>
                             </> : ''

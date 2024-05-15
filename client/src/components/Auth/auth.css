@@ -1,4 +1,4 @@
-.auth{
+.auth {
     width: 100%;
     height: 100%;
     display: flex;
@@ -6,26 +6,26 @@
     align-items: center;
 }
 
-.auth__box{
+.auth__box {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.auth__box form{
+.auth__box form {
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: center;
 }
 
-.auth__box form h1{
+.auth__box form h1 {
     margin-bottom: 20px;
     color: #5a5aef;
     font-size: 42px;
 }
 
-.auth__box form input{
+.auth__box form input {
     border: 3px solid #ea5858;
     min-width: 300px;
     padding: 10px;
@@ -34,29 +34,29 @@
     font-size: 16px;
 }
 
-.auth__box form button{
+.auth__box form button {
     background-color: #e7b04a;
     color: white;
     border: none;
-    width: 200px;
     padding: 15px;
-    border-radius: 20px;
+    border-radius: 15px;
     font-size: 16px;
     margin-top: 30px;
+    font-weight: 600;
 }
 
-.auth__box p{
+.auth__box p {
     white-space: break-spaces;
     text-align: center;
     line-height: 30px;
 }
 
-.auth__box__image{
+.auth__box__image {
     width: 800px;
     height: 800px;
 }
 
-.auth__box__image img{
+.auth__box__image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
