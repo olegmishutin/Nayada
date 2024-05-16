@@ -1,0 +1,131 @@
+.users{
+    width: 100%;
+}
+
+.users__header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.users__header h2{
+    color: #ea5858;
+}
+
+.users__header__search{
+    outline: none;
+    border-radius: 20px;
+    border: 2px solid #5a5aef;
+}
+
+.users__header__search input{
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+.users__header__search button{
+    border-radius: 20px;
+    border: none;
+    background-color: #ea5858;
+    padding: 10px 15px;
+    color: white;
+    font-weight: 600;
+}
+
+.users__header__create{
+    padding: 10px;
+    font-weight: 600;
+    background-color: #59be6e;
+    border: none;
+    border-radius: 20px;
+    color: white;
+}
+
+.users__list li{
+    padding: 10px;
+    background: white;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 7px gray;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.users__list li .info{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.users__list li .photo{
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.users__list li .photo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.users__list li .buttons{
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.users__list li .buttons button{
+    padding: 10px;
+    font-weight: 600;
+    border-radius: 20px;
+    border: none;
+    color: white;
+}
+
+.users__list li .buttons .buttons__change{
+    background-color: #e7b04a;
+}
+
+.users__list li .buttons .buttons__delete{
+    background-color: #ea5858;
+}
+
+.users__modal{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.users__modal .input{
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid #e7b04a;
+}
+
+.users__modal__create__checkboxes{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.users__modal__create__checkboxes li label{
+    margin-left: 10px;
+}
+
+.createUserButton{
+    background-color: #59be6e;
+    color: white;
+}
+
+.editUserButton{
+    background-color: #e7b04a;
+    color: white;
+}

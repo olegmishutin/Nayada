@@ -80,7 +80,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     # Перепись метода обновления, чтобы админ не мог поменять пароль у пользователей
     def update(self, instance, validated_data):
-        validated_data.pop('password')
+        validated_data.pop('password', None)
         return super(UserSerializer, self).update(instance, validated_data)
 
     def create(self, validated_data):

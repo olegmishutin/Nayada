@@ -82,7 +82,7 @@ export default function Panel() {
                                 <p>Администратор</p>
                                 <li>
                                     <img src={profile} alt='profile' loading='lazy'/>
-                                    <Link to={'/'} className='link'>Управление пользователями</Link>
+                                    <Link to={'admin-users/'} className='link'>Управление пользователями</Link>
                                 </li>
                                 <li>
                                     <img src={products} alt='products' loading='lazy'/>

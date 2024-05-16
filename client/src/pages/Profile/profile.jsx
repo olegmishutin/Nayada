@@ -46,22 +46,20 @@ export default function Profile() {
     }
 
     function changeProfile(event) {
+        const formData = new FormData()
+
         let photo = document.getElementById('profile_photo').files[0]
-
-        if (!photo) {
-            photo = ''
-        }
-
         const data = {
-            photo: photo,
             full_name: document.getElementById('profile_full_name').value,
             login: document.getElementById('profile_login').value,
             email: document.getElementById('profile_email').value,
             telephone: document.getElementById('profile_telephone').value
         }
 
-        const formData = new FormData()
-        formData.append('photo', data.photo)
+        if (photo) {
+            formData.append('photo', photo)
+        }
+
         formData.append('full_name', data.full_name)
         formData.append('login', data.login)
         formData.append('email', data.email)
@@ -129,7 +127,7 @@ export default function Profile() {
                 <button className='profile__buttons__change' onClick={openModal}>Изменить профиль</button>
                 <button className='profile__buttons__logout' onClick={logout}>Выйти из системы</button>
             </div>
-            <Modal buttons={
+            <Modal status={status} buttons={
                 <>
                     <button className='profile__modal__button' onClick={changeProfile}>Изменить</button>
                 </>
@@ -140,15 +138,14 @@ export default function Profile() {
                             <input type='file' name='profile_photo' id='profile_photo' accept='image/*'/>
                             <span>Выберите фото</span>
                         </label>
-                        <input className='profile__modal__input' type='text' name='profile_full_name'
+                        <input className='profile__modal__input' type='text' name='full_name'
                                id='profile_full_name' placeholder='Полное имя' defaultValue={user.full_name}/>
-                        <input className='profile__modal__input' type='text' name='profile_login' id='profile_login'
+                        <input className='profile__modal__input' type='text' name='login' id='profile_login'
                                placeholder='Имя пользователя в системе' defaultValue={user.login}/>
-                        <input className='profile__modal__input' type='email' name='profile_email' id='profile_email'
+                        <input className='profile__modal__input' type='email' name='email' id='profile_email'
                                placeholder='Электронный адрес почты' defaultValue={user.email}/>
-                        <input className='profile__modal__input' type='tel' name='profile_telephone'
+                        <input className='profile__modal__input' type='tel' name='telephone'
                                id='profile_telephone' placeholder='Телефонный номер' defaultValue={user.telephone}/>
-                        <p className='modal__status'>{status}</p>
                     </form>
                 </>
             </Modal>

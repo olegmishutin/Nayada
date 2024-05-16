@@ -6,6 +6,7 @@ import Registration from "./pages/Registration/registration.jsx";
 import Login from "./pages/Login/login.jsx";
 import Profile from "./pages/Profile/profile.jsx";
 import Orders from "./pages/Orders/orders.jsx";
+import AdminUsers from "./pages/AdminUsers/adminUsers.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             {
                 path: 'me/',
                 element: <Profile/>
+            },
+            {
+                path: 'admin-users/',
+                element: <AdminUsers/>
             }
         ]
     },
