@@ -7,6 +7,7 @@ import Login from "./pages/Login/login.jsx";
 import Profile from "./pages/Profile/profile.jsx";
 import Orders from "./pages/Orders/orders.jsx";
 import AdminUsers from "./pages/AdminUsers/adminUsers.jsx";
+import Products from "./pages/Products/products.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: 'admin-users/',
                 element: <AdminUsers/>
+            },
+            {
+                path: 'products/',
+                element: <Products/>
             }
         ]
     },

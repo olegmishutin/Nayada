@@ -210,11 +210,11 @@ export default function AdminUsers() {
                                         <img src={value.photo ? value.photo : userPhoto} alt='photo' loading='lazy'/>
                                     </div>
                                     <div className="info">
-                                        <p><b>ФИО</b>: {value.full_name}</p>
-                                        <p><b>Email</b>: {value.email}</p>
-                                        <p><b>Логин</b>: {value.login}</p>
-                                        <p><b>Телефон</b>: {value.telephone}</p>
-                                        <p><b>Тип</b>: {
+                                        <p><b>ФИО:</b> {value.full_name}</p>
+                                        <p><b>Email:</b> {value.email}</p>
+                                        <p><b>Логин:</b> {value.login}</p>
+                                        <p><b>Телефон:</b> {value.telephone}</p>
+                                        <p><b>Тип:</b> {
                                             value.is_staff ?
                                                 'Админ' : value.is_worker ?
                                                     'Рабочий' : 'Пользователь'

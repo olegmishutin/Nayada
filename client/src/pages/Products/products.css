@@ -1,0 +1,19 @@
+.products {
+    width: 100%;
+}
+
+.products__header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.products__header__create {
+    padding: 10px;
+    font-weight: 600;
+    background-color: #59be6e;
+    border: none;
+    border-radius: 20px;
+    color: white;
+}

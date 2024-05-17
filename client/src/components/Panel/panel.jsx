@@ -75,6 +75,10 @@ export default function Panel() {
                                     <img src={order} alt='order' loading='lazy'/>
                                     <Link to={'/'} className='link'>Управление заказами</Link>
                                 </li>
+                                <li>
+                                    <img src={products} alt='products' loading='lazy'/>
+                                    <Link to={'products/'} className='link'>Управление продуктами</Link>
+                                </li>
                             </> : ''
                         }
                         {userType === 'staff' ?
@@ -83,10 +87,6 @@ export default function Panel() {
                                 <li>
                                     <img src={profile} alt='profile' loading='lazy'/>
                                     <Link to={'admin-users/'} className='link'>Управление пользователями</Link>
-                                </li>
-                                <li>
-                                    <img src={products} alt='products' loading='lazy'/>
-                                    <Link to={'/'} className='link'>Управление продуктами</Link>
                                 </li>
                             </> : ''
                         }

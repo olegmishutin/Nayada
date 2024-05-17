@@ -1,0 +1,36 @@
+.products__filters{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.products__filters button{
+    padding: 10px;
+    border-radius: 20px;
+    margin-left: auto;
+    background-color: #5a5aef;
+    color: white;
+    font-weight: 600;
+    border: none;
+}
+
+.products__filters ul{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.products__filters__filter{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.products__filters__filter input[type='number']{
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid #e7b04a;
+    outline: none;
+}
