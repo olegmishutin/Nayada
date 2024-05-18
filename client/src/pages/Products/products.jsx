@@ -300,7 +300,8 @@ export default function Products() {
                                         </label>
                                     </div>
                                     <div className="product__data">
-                                        <p><b>Название:</b> {value.name}, <b>Цена:</b> {value.price}</p>
+                                        <p><b>Название:</b> {value.name}</p>
+                                        <p><b>Цена:</b> {value.price}р</p>
                                         <p><b>Информация о товаре:</b> {value.info}</p>
                                         {value.short_description ?
                                             <p><b>Описание:</b> {value.short_description}</p> : ''}

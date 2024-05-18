@@ -46,7 +46,7 @@ export default function Panel() {
                                 </li>
                                 <li>
                                     <img src={request} alt='request' loading='lazy'/>
-                                    <Link to={'/'} className='link'>Мои запросы</Link>
+                                    <Link to={'my-requests/'} className='link'>Мои запросы</Link>
                                 </li>
                                 <li>
                                     <img src={order} alt='order' loading='lazy'/>

@@ -8,6 +8,7 @@ import Profile from "./pages/Profile/profile.jsx";
 import Orders from "./pages/Orders/orders.jsx";
 import AdminUsers from "./pages/AdminUsers/adminUsers.jsx";
 import Products from "./pages/Products/products.jsx";
+import UserOrderRequest from "./pages/UserOrderRequest/userOrderRequest.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path: 'products/',
                 element: <Products/>
+            },
+            {
+                path: 'my-requests/',
+                element: <UserOrderRequest/>
             }
         ]
     },

@@ -72,7 +72,6 @@
     display: flex;
     border: 2px solid black;
     justify-content: center;
-    align-items: center;
 }
 
 .product__photos_photo:last-child span {
