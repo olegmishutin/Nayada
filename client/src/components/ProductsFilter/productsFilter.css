@@ -3,6 +3,7 @@
     gap: 10px;
     justify-content: center;
     align-items: center;
+    margin-bottom: 25px;
 }
 
 .products__filters button{

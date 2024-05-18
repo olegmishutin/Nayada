@@ -17,7 +17,7 @@ body {
     min-height: 100vh;
 }
 
-button, input {
+button, input, textarea {
     transition-duration: 0.3s;
 }
 
@@ -28,7 +28,9 @@ button:hover {
 }
 
 input:hover,
-input:focus{
+input:focus,
+textarea:hover,
+textarea:focus {
     padding-left: 25px !important;
     padding-right: 25px !important;
 }

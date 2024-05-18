@@ -21,8 +21,12 @@ class ProductViewSet(viewsets.ModelViewSet):
         greatestPrice = params.get('greatestPrice') or 0
 
         products = Product.objects.all()
-        if smallestPrice or greatestPrice:
+        if smallestPrice and greatestPrice:
             products = products.filter(price__gte=smallestPrice, price__lte=greatestPrice)
+        elif smallestPrice:
+            products = products.filter(price__gte=smallestPrice)
+        elif greatestPrice:
+            products = products.filter(price__lte=greatestPrice)
 
         return products.order_by(*filter).prefetch_related('photos')
 

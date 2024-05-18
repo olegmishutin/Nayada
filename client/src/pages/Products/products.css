@@ -9,11 +9,193 @@
     margin-bottom: 25px;
 }
 
+.products__header h2 {
+    color: #5a5aef;
+}
+
 .products__header__create {
     padding: 10px;
     font-weight: 600;
     background-color: #59be6e;
     border: none;
     border-radius: 20px;
+    color: white;
+}
+
+.products__list {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.products__list li {
+    padding: 20px;
+    background-color: white;
+    box-shadow: 2px 2px 7px gray;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.product__photos {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.product__photos_photo {
+    min-width: 200px;
+    min-height: 200px;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product__photos_photo img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product__photos_photo .buttons__delete {
+    width: 100%;
+    background-color: #ea5858;
+    padding: 10px;
+    font-weight: 600;
+    color: white;
+    border: none;
+}
+
+.product__photos_photo:last-child {
+    position: relative;
+    display: flex;
+    border: 2px solid black;
+    justify-content: center;
+    align-items: center;
+}
+
+.product__photos_photo:last-child span {
+    position: relative;
+    display: inline-block;
+    font-weight: 400;
+    font-size: 50px;
+}
+
+.product__photos_photo:last-child input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.product__photos_photo:last-child button {
+    width: 100%;
+    height: 100%;
+    font-size: 50px;
+    background: none;
+    border: none;
+}
+
+.product__data {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product__buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.product__buttons button {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    color: white;
+}
+
+.product__buttons .edit_product {
+    background-color: #e7b04a;
+}
+
+.product__buttons .delete_product {
+    background-color: #ea5858;
+}
+
+.products__modal {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.products__modal__photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    border: 2px solid black;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #e7b04a;
+    font-weight: 600;
+    text-align: center;
+    font-size: 24px;
+}
+
+.products__modal__photo input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.products__modal__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.products__modal__info input,
+.products__modal__info textarea {
+    width: 400px;
+    border-radius: 20px;
+    padding: 10px;
+    outline: none;
+    resize: none;
+    border: 2px solid #5a5aef;
+}
+
+.products__modal__info textarea {
+    height: 100px;
+}
+
+.products__modal__info textarea::-webkit-scrollbar {
+    width: 7px;
+    background: none;
+}
+
+.products__modal__info textarea::-webkit-scrollbar-thumb {
+    background-color: #ea5858;
+    border-radius: 20px;
+}
+
+.add_product_button {
+    background-color: #59be6e;
+    color: white;
+}
+
+.edit_product_button {
+    background-color: #e7b04a;
     color: white;
 }

@@ -122,20 +122,18 @@ export default function AdminUsers() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                if (error.response.status === 400) {
-                    let message = ''
+                let message = ''
 
-                    for (const [key, value] of Object.entries(error.response.data)) {
-                        if (key === 'message') {
-                            message += `${value}\n`
-                        } else {
-                            message += `${key}: ${value}\n`
-                        }
+                for (const [key, value] of Object.entries(error.response.data)) {
+                    if (key === 'message') {
+                        message += `${value}\n`
+                    } else {
+                        message += `${key}: ${value}\n`
                     }
-                    setEditionStatus(message)
-                } else {
-                    setEditionStatus('Что-то пошло не так')
                 }
+                setEditionStatus(message)
+            } else {
+                setEditionStatus('Что-то пошло не так')
             }
         })
         event.preventDefault()

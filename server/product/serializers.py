@@ -11,16 +11,19 @@ class ProductPhotoSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    photos = ProductPhotoSerializer(many=True, required=False)
+    photos = ProductPhotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
         fields = '__all__'
 
     def create(self, validated_data):
-        photos = validated_data.pop('photos', [])
-        product = Product.objects.create(**validated_data)
+        if self.initial_data.get('photos'):
+            photos = self.initial_data.pop('photos', [])
+            product = Product.objects.create(**validated_data)
 
-        for photo in photos:
-            ProductPhoto.objects.create(product=product, **photo)
-        return product
+            for photo in photos:
+                ProductPhoto.objects.create(product=product, photo=photo)
+
+            return product
+        raise serializers.ValidationError({'photos': ['Нужна хотябы одна фотография.']})
