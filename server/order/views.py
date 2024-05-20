@@ -37,11 +37,12 @@ class UserOrderRequestViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class WorkerOrderRequestViewSet(UpdateModelMixin, UserOrderRequestViewSet):
-    queryset = OrderRequest.objects.all().select_related(
-        'order').prefetch_related('order__user', 'order__products', 'order__categories', 'order__products__photos')
-
     serializer_class = serializers.WorkerOrderRequestSerializer
     permission_classes = [IsWorkerOrAdmin]
+
+    def get_queryset(self):
+        return OrderRequest.objects.all().select_related(
+            'order').prefetch_related('order__user', 'order__products', 'order__categories', 'order__products__photos')
 
 
 class UserOrderViewSet(viewsets.ModelViewSet):
