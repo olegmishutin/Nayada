@@ -91,7 +91,7 @@ export default function Panel() {
                                 </li>
                                 <li>
                                     <img src={category} alt='category' loading='lazy'/>
-                                    <Link to={'admin-users/'} className='link'>Управление категориями</Link>
+                                    <Link to={'categories/'} className='link'>Управление категориями</Link>
                                 </li>
                             </> : ''
                         }

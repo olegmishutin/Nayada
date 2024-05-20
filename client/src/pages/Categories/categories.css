@@ -1,0 +1,79 @@
+.categories {
+    width: 100%;
+}
+
+.categories__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+}
+
+.categories__header h2 {
+    color: #5a5aef;
+}
+
+.categories__header__creating {
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #59be6e;
+    border: none;
+    color: white;
+    font-weight: 600;
+}
+
+.categories__list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.categories__list__category {
+    padding: 20px;
+    box-shadow: 2px 2px 7px gray;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    text-align: center;
+}
+
+.categories__list__category button {
+    padding: 10px;
+    color: white;
+    border-radius: 20px;
+    border: none;
+    font-weight: 600;
+}
+
+.categories__list__category .buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.categories__list__category .buttons .edit {
+    background-color: #e7b04a;
+}
+
+.categories__list__category .buttons .delete {
+    background-color: #ea5858;
+}
+
+.category__modal input {
+    padding: 10px;
+    border-radius: 20px;
+    outline: none;
+    border: 2px solid #5a5aef;
+}
+
+.create_category_button {
+    background-color: #59be6e;
+    color: white;
+}
+
+.edit_category_button {
+    background-color: #e7b04a;
+    color: white;
+}

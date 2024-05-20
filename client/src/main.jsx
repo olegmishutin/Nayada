@@ -9,6 +9,7 @@ import Orders from "./pages/Orders/orders.jsx";
 import AdminUsers from "./pages/AdminUsers/adminUsers.jsx";
 import Products from "./pages/Products/products.jsx";
 import UserOrderRequest from "./pages/UserOrderRequest/userOrderRequest.jsx";
+import Categories from "./pages/Categories/categories.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
             {
                 path: 'my-requests/',
                 element: <UserOrderRequest/>
+            },
+            {
+                path: 'categories/',
+                element: <Categories/>
             }
         ]
     },

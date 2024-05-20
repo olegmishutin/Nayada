@@ -71,6 +71,6 @@ class WorkerOrderViewSet(UpdateModelMixin, viewsets.ReadOnlyModelViewSet):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by('-id')
     serializer_class = serializers.CategorySerializer
     permission_classes = [IsWorkerOrAdmin]
