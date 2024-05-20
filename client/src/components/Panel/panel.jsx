@@ -70,7 +70,7 @@ export default function Panel() {
                                 <p>Работник</p>
                                 <li>
                                     <img src={request} alt='request' loading='lazy'/>
-                                    <Link to={'/'} className='link'>Управление запросами</Link>
+                                    <Link to={'requests/'} className='link'>Управление запросами</Link>
                                 </li>
                                 <li>
                                     <img src={order} alt='order' loading='lazy'/>

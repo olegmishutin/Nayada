@@ -114,8 +114,9 @@
 
 .orders_requests .request .header{
     display: flex;
-    align-items: flex-end;
-    gap: 40px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 15px;
 }
 
@@ -130,6 +131,7 @@
 .orders_requests .data{
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .orders_requests .data .product{

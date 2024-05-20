@@ -1,0 +1,33 @@
+.admin_order_request{
+    width: 100%;
+}
+
+.admin_order_request__header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    color: #ea5858;
+}
+
+.admin_order_request__list .request .header select{
+    border-radius: 20px;
+    background-color: #e7b04a;
+    color: white;
+    font-weight: 600;
+}
+
+.admin_order_request__list .request .header select option{
+    font-weight: 600;
+}
+
+.admin_order_request__list .request .header .user{
+    color: #59be6e;
+    max-width: 280px;
+    text-align: center;
+}
+
+.admin_order_request__list .request .place{
+    max-width: 280px;
+    text-align: center;
+}

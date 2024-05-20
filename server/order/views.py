@@ -41,7 +41,7 @@ class WorkerOrderRequestViewSet(UpdateModelMixin, UserOrderRequestViewSet):
     permission_classes = [IsWorkerOrAdmin]
 
     def get_queryset(self):
-        return OrderRequest.objects.all().select_related(
+        return OrderRequest.objects.exclude(status__in=['Р', 'ОТ']).select_related(
             'order').prefetch_related('order__user', 'order__products', 'order__categories', 'order__products__photos')
 
 
