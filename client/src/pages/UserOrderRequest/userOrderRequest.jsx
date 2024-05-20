@@ -212,7 +212,7 @@ export default function UserOrderRequest() {
                         </div>
                         <div className="right_modal_panel">
                             <h3>Моя корзина</h3>
-                            <p className='basket_price'>Общая стоимость заказа: {basketPrice}</p>
+                            <p className='basket_price'>Общая стоимость заказа: {basketPrice}р</p>
                             <ul className='products__list'>
                                 {
                                     basketProducts.map((value, key) => {
@@ -262,7 +262,7 @@ export default function UserOrderRequest() {
                                         <div className="header">
                                             <h3><b>Номер запроса:</b> {value.identification_number}</h3>
                                             <p><b>Статус запроса:</b> {value.status}</p>
-                                            <span><b>Стоимость:</b> {value.order.price}</span>
+                                            <span><b>Стоимость:</b> {value.order.price}р</span>
                                         </div>
                                         <ul className="data">
                                             {

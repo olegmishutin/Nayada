@@ -28,6 +28,7 @@ class Order(models.Model):
         db_table = 'Order'
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
+        ordering = ['-creation_time']
 
     def __str__(self):
         return self.identification_number
@@ -51,6 +52,7 @@ class OrderRequest(models.Model):
         db_table = 'OrderRequest'
         verbose_name = 'Запрос на заказ'
         verbose_name_plural = 'Запросы на заказы'
+        ordering = ['-order__creation_time']
 
     def __str__(self):
         return self.identification_number
@@ -66,6 +68,9 @@ class OrderProduct(models.Model):
         verbose_name = 'Продукт заказа'
         verbose_name_plural = 'Продукты заказов'
         unique_together = []
+
+    def __str__(self):
+        return str(self.order.identification_number)
 
 
 class Category(models.Model):

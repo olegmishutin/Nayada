@@ -28,7 +28,7 @@ class User(AbstractBaseUser):
         db_table = 'User'  # Название таблицы в бд
         verbose_name = 'Пользователь'  # Название таблицы для системы (ед.число)
         verbose_name_plural = 'Пользователи'  # Название таблицы для системы (множ.число)
-        ordering = ['id']
+        ordering = ['-id']
 
     # Перепись метода delete, для удаления пользователя
     def delete(self, using=None, keep_parents=False):

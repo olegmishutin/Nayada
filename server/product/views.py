@@ -28,7 +28,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         elif greatestPrice:
             products = products.filter(price__lte=greatestPrice)
 
-        return products.order_by(*filter).prefetch_related('photos')
+        return products.order_by(*filter).prefetch_related('photos') if filter else products
 
 
 class ProductPhotoViewSet(viewsets.ModelViewSet):

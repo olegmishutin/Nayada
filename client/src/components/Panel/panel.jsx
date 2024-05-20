@@ -9,6 +9,7 @@ import order from '../../images/Panel/order.png'
 import products from '../../images/Panel/products.png'
 import login from '../../images/Panel/login.png'
 import registration from '../../images/Panel/registration.png'
+import category from '../../images/Panel/category.png'
 import './panel.css'
 
 export default function Panel() {
@@ -87,6 +88,10 @@ export default function Panel() {
                                 <li>
                                     <img src={profile} alt='profile' loading='lazy'/>
                                     <Link to={'admin-users/'} className='link'>Управление пользователями</Link>
+                                </li>
+                                <li>
+                                    <img src={category} alt='category' loading='lazy'/>
+                                    <Link to={'admin-users/'} className='link'>Управление категориями</Link>
                                 </li>
                             </> : ''
                         }

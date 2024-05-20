@@ -13,6 +13,7 @@ class Product(models.Model):
         db_table = 'Product'
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
+        ordering = ['-date_added']
 
     def delete(self, using=None, keep_parents=False):
         for photo in self.photos.all():
