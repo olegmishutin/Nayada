@@ -3,7 +3,7 @@ import Modal from "../../components/Modal/modal.jsx"
 import ProductsFilter from "../../components/ProductsFilter/productsFilter.jsx"
 import axios from "axios"
 import './userOrderRequest.css'
-import {findReturnStatement} from "eslint-plugin-react/lib/util/ast.js";
+import getErrorMessageFromData from "../../helpers.jsx";
 
 export default function UserOrderRequest() {
     const [userRequests, setUserRequests] = useState([])
@@ -110,16 +110,7 @@ export default function UserOrderRequest() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                let message = ''
-
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    if (key === 'message') {
-                        message += `${value}\n`
-                    } else {
-                        message += `${key}: ${value}\n`
-                    }
-                }
-                setStatus(message)
+                setStatus(getErrorMessageFromData(error.response.data))
             } else {
                 setStatus('Что-то пошло не так')
             }

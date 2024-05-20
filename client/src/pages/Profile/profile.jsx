@@ -4,6 +4,7 @@ import Modal from "../../components/Modal/modal.jsx";
 import './profile.css'
 
 import userAvatar from '../../images/Profile/user avatar.jpg'
+import getErrorMessageFromData from "../../helpers.jsx";
 
 export default function Profile() {
     const [status, setStatus] = useState('')
@@ -81,16 +82,7 @@ export default function Profile() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                let message = ''
-
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    if (key === 'message') {
-                        message += `${value}\n`
-                    } else {
-                        message += `${key}: ${value}\n`
-                    }
-                }
-                setStatus(message)
+                setStatus(getErrorMessageFromData(error.response.data))
             } else {
                 setStatus('Что-то пошло не так')
             }

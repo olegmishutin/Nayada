@@ -3,6 +3,7 @@ import axios from "axios"
 import ProductsFilter from "../../components/ProductsFilter/productsFilter.jsx"
 import Modal from "../../components/Modal/modal.jsx";
 import './products.css'
+import getErrorMessageFromData from "../../helpers.jsx";
 
 export default function Products() {
     const [creationProdStatus, setCreationProdStatus] = useState()
@@ -144,16 +145,7 @@ export default function Products() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                let message = ''
-
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    if (key === 'message') {
-                        message += `${value}\n`
-                    } else {
-                        message += `${key}: ${value}\n`
-                    }
-                }
-                setCreationProdStatus(message)
+                setCreationProdStatus(getErrorMessageFromData(error.response.data))
             } else {
                 setCreationProdStatus('Что-то пошло не так')
             }
@@ -186,16 +178,7 @@ export default function Products() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                let message = ''
-
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    if (key === 'message') {
-                        message += `${value}\n`
-                    } else {
-                        message += `${key}: ${value}\n`
-                    }
-                }
-                setEditionProdStatus(message)
+                setEditionProdStatus(getErrorMessageFromData(error.response.data))
             } else {
                 setEditionProdStatus('Что-то пошло не так')
             }
@@ -226,6 +209,7 @@ export default function Products() {
     }
 
     function closeCreateProductsModal() {
+        setCreationProdStatus('')
         document.getElementById('create__products__modal').style.display = 'none'
     }
 
@@ -252,6 +236,7 @@ export default function Products() {
         setProductPrice(undefined)
         setProductInfo('')
         setProductDescription('')
+        setEditionProdStatus('')
     }
 
     return (

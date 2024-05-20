@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react"
 import Modal from "../../components/Modal/modal.jsx"
+import getErrorMessageFromData from "../../helpers.jsx";
 import axios from "axios"
 import './categories.css'
 
@@ -51,16 +52,7 @@ export default function Categories() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                let message = ''
-
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    if (key === 'message') {
-                        message += `${value}\n`
-                    } else {
-                        message += `${key}: ${value}\n`
-                    }
-                }
-                setCreatingStatus(message)
+                setCreatingStatus(getErrorMessageFromData(error.response.data))
             } else {
                 setCreatingStatus('Что-то пошло не так')
             }
@@ -89,16 +81,7 @@ export default function Categories() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                let message = ''
-
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    if (key === 'message') {
-                        message += `${value}\n`
-                    } else {
-                        message += `${key}: ${value}\n`
-                    }
-                }
-                setEditingStatus(message)
+                setEditingStatus(getErrorMessageFromData(error.response.data))
             } else {
                 setEditingStatus('Что-то пошло не так')
             }

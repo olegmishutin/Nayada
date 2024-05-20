@@ -1,4 +1,5 @@
 import Modal from "../../components/Modal/modal.jsx"
+import getErrorMessageFromData from "../../helpers.jsx";
 import {useState, useEffect} from "react"
 import axios from "axios"
 
@@ -73,43 +74,27 @@ export default function AdminUsers() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                if (error.response.status === 400) {
-                    let message = ''
-
-                    for (const [key, value] of Object.entries(error.response.data)) {
-                        if (key === 'message') {
-                            message += `${value}\n`
-                        } else {
-                            message += `${key}: ${value}\n`
-                        }
-                    }
-                    setCreationStatus(message)
-                } else {
-                    setCreationStatus('Что-то пошло не так')
-                }
+                setCreationStatus(getErrorMessageFromData(error.response.data))
+            } else {
+                setCreationStatus('Что-то пошло не так')
             }
         })
         event.preventDefault()
     }
 
     function editUser(event) {
-        const telephone = document.getElementById('users_telephone_editing').value
-        const data = {
-            full_name: document.getElementById('users_full_name_editing').value,
-            login: document.getElementById('users_login_editing').value,
-            email: document.getElementById('users_email_editing').value,
-            is_worker: document.getElementById('users_is_worker_editing').checked,
-            is_staff: document.getElementById('users_is_admin_editing').checked,
-        }
-
-        if (telephone) {
-            data['telephone'] = telephone
-        }
+        const formData = new FormData()
+        formData.append('full_name', document.getElementById('users_full_name_editing').value)
+        formData.append('login', document.getElementById('users_login_editing').value)
+        formData.append('email', document.getElementById('users_email_editing').value)
+        formData.append('is_worker', document.getElementById('users_is_worker_editing').checked)
+        formData.append('is_staff', document.getElementById('users_is_admin_editing').checked)
+        formData.append('telephone', document.getElementById('users_telephone_editing').value)
 
         axios({
             method: 'PATCH',
             url: `/api/admin-users/${userId}/`,
-            data: data,
+            data: formData,
             xsrfHeaderName: 'X-CSRFTOKEN',
             xsrfCookieName: 'csrftoken',
             withCredentials: true
@@ -122,16 +107,7 @@ export default function AdminUsers() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                let message = ''
-
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    if (key === 'message') {
-                        message += `${value}\n`
-                    } else {
-                        message += `${key}: ${value}\n`
-                    }
-                }
-                setEditionStatus(message)
+                setEditionStatus(getErrorMessageFromData(error.response.data))
             } else {
                 setEditionStatus('Что-то пошло не так')
             }
@@ -162,6 +138,7 @@ export default function AdminUsers() {
     }
 
     function createUserModalClose() {
+        setCreationStatus('')
         document.getElementById('createUserModal').style.display = 'none'
     }
 

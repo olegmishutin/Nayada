@@ -3,6 +3,7 @@ import Auth from "../../components/Auth/auth.jsx";
 import axios from "axios"
 
 import regImage from '../../images/Auth/reg.jpg'
+import getErrorMessageFromData from "../../helpers.jsx";
 
 export default function Registration() {
     const [status, setStatus] = useState('')
@@ -30,12 +31,7 @@ export default function Registration() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                let message = ''
-
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    message += `${key}: ${value}\n`
-                }
-                setStatus(message)
+                setStatus(getErrorMessageFromData(error.response.data))
             } else {
                 setStatus('Что-то пошло не так')
             }

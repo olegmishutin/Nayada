@@ -4,6 +4,7 @@ import axios from "axios"
 
 import loginImage from '../../images/Auth/login.jpg'
 import './login.css'
+import getErrorMessageFromData from "../../helpers.jsx"
 
 export default function Login() {
     const [status, setStatus] = useState('')
@@ -30,16 +31,7 @@ export default function Login() {
             }
         }).catch((error) => {
             if (error.response.status === 400) {
-                let message = ''
-
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    if (key === 'message') {
-                        message += `${value}\n`
-                    } else {
-                        message += `${key}: ${value}\n`
-                    }
-                }
-                setStatus(message)
+                setStatus(getErrorMessageFromData(error.response.data))
             } else {
                 setStatus('Что-то пошло не так')
             }
