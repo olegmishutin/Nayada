@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.mixins import UpdateModelMixin
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .models import Order, Category, OrderRequest
 from . import serializers
 from .permissions import IsOwnerAndSafeStatus
@@ -13,17 +14,17 @@ def filter_queryset(queryset, params):
     filtersCheckboxex = {'expensive': '-price', 'cheap': 'price'}
 
     categories = Category.objects.all()
-    categoriesForFilter = [
-        category for category in categories if params.get(f'category-{category.id}')]
+    categoriesForFilter = [category for category in categories if params.get(f'category-{category.id}')]
 
     if categoriesForFilter:
         retQueryset = queryset.filter(categories__in=categoriesForFilter)
 
     if status:
-        retQueryset = retQueryset.filter(status=status)
+        statuses = status.split(',')
+        retQueryset = retQueryset.filter(status__in=statuses)
 
     filter = [value for key, value in filtersCheckboxex.items() if params.get(key)]
-    return retQueryset.order_by(*filter)
+    return retQueryset.order_by(*filter, '-creation_time')
 
 
 class UserOrderRequestViewSet(viewsets.ReadOnlyModelViewSet):
@@ -54,12 +55,6 @@ class UserOrderViewSet(viewsets.ModelViewSet):
             self.request.user.orders.filter(request__status='Р').prefetch_related(
                 'categories', 'products', 'products__photos'), self.request.query_params)
 
-    def perform_destroy(self, instance):
-        instance.products.clear()
-        instance.categories.clear()
-        instance.status = 'ОТ'
-        instance.save(update_fields=['status'])
-
 
 class WorkerOrderViewSet(UpdateModelMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.WorkOrderSerializer
@@ -71,7 +66,13 @@ class WorkerOrderViewSet(UpdateModelMixin, viewsets.ReadOnlyModelViewSet):
                 'categories', 'products', 'products__photos').select_related('user'), self.request.query_params)
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class AdminCategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all().order_by('-id')
     serializer_class = serializers.CategorySerializer
-    permission_classes = [IsWorkerOrAdmin]
+    permission_classes = [IsAdminUser]
+
+
+class UserCatgoryListView(ListAPIView):
+    queryset = Category.objects.all().order_by('-id')
+    serializer_class = serializers.CategorySerializer
+    permission_classes = [IsAuthenticated]
