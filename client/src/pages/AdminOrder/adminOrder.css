@@ -1,0 +1,38 @@
+.admin_order{
+    width: 100%;
+}
+
+.admin_order__header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.admin_order__header h2{
+    color: #5a5aef;
+}
+
+.admin_order__list__category_name{
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #ea5858;
+}
+
+.admin_order__list .orders_filter__filters{
+    max-width: 300px;
+    justify-content: center;
+}
+
+.admin_order__list .orders_filter__filters .orders_filter__box button{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.admin_order__list .orders_filter__filters .orders_filter__box button:hover{
+    padding: 0 !important;
+}

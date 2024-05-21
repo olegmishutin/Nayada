@@ -11,6 +11,7 @@ import Products from "./pages/Products/products.jsx";
 import UserOrderRequest from "./pages/UserOrderRequest/userOrderRequest.jsx";
 import Categories from "./pages/Categories/categories.jsx";
 import AdminOrderRequest from "./pages/AdminOrderRequest/adminOrderRequests.jsx";
+import AdminOrder from "./pages/AdminOrder/adminOrder.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
             {
                 path: 'requests/',
                 element: <AdminOrderRequest/>
+            },
+            {
+                path: 'orders/',
+                element: <AdminOrder/>
             }
         ]
     },

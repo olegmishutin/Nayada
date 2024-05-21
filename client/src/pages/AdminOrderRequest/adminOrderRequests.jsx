@@ -60,9 +60,9 @@ export default function AdminOrderRequest() {
                                 <>
                                     <li className='request'>
                                         <div className="header">
-                                            <h3 className='user'><b>Заказчик:</b> {value.order.user}</h3>
+                                            <h3 className='user'><b>Отправитель:</b> {value.order.user}</h3>
                                             <h3><b>Номер запроса:</b> {value.identification_number}</h3>
-                                            <p><b>Статус запроса:</b> <select defaultValue={value.status} onChange={
+                                            <p><b>Статус запроса:</b> <select value={value.status} onChange={
                                                 (event) => {
                                                     changeOrderRequest(value.id, event.target.value)
                                                     event.preventDefault()

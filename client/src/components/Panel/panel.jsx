@@ -74,7 +74,7 @@ export default function Panel() {
                                 </li>
                                 <li>
                                     <img src={order} alt='order' loading='lazy'/>
-                                    <Link to={'/'} className='link'>Управление заказами</Link>
+                                    <Link to={'orders/'} className='link'>Управление заказами</Link>
                                 </li>
                                 <li>
                                     <img src={products} alt='products' loading='lazy'/>

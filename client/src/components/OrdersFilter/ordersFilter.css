@@ -1,0 +1,34 @@
+.orders_filter{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.orders_filter__header_text{
+    color: #59be6e;
+}
+
+.orders_filter__filters{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+}
+
+.orders_filter__box{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.orders_filter__button{
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #5a5aef;
+    font-weight: 600;
+    color: white;
+}
