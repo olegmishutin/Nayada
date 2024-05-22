@@ -11,6 +11,9 @@ class IsOwnerAndSafeStatus(BasePermission):
         if request.method in safeMethods:
             return True
 
-        if request.user == obj.user and obj.status not in ['О', 'ОТ']:
+        if request.method == 'DELETE' and request.user == obj.user and obj.status != 'В':
+            return True
+
+        if request.user == obj.user and obj.status == 'Н':
             return True
         return False

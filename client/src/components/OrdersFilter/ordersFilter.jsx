@@ -7,11 +7,12 @@ export default function OrdersFilter(props) {
                 <h4 className='orders_filter__header_text'>Фильтры состояний</h4>
                 <form className="orders_filter__filters">
                     <div className="orders_filter__box">
-                        <input type='checkbox' name='new_order' id='new_order_checkbox'/>
+                        <input type='checkbox' name='new_order' id='new_order_checkbox' defaultChecked={true}/>
                         <label htmlFor='new_order_checkbox'>Новые</label>
                     </div>
                     <div className="orders_filter__box">
-                        <input type='checkbox' name='processing_order' id='processing_order_checkbox'/>
+                        <input type='checkbox' name='processing_order' id='processing_order_checkbox'
+                               defaultChecked={true}/>
                         <label htmlFor='processing_order_checkbox'>В обработке</label>
                     </div>
                     <div className="orders_filter__box">

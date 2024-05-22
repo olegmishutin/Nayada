@@ -133,11 +133,11 @@ export default function UserOrderRequest() {
 
     function openModal() {
         getProducts()
-        document.getElementById('user_orders').style.display = 'flex'
+        document.getElementById('user_orders_request').style.display = 'flex'
     }
 
     function closeModal() {
-        document.getElementById('user_orders').style.display = 'none'
+        document.getElementById('user_orders_request').style.display = 'none'
         setStatus('')
         setBasketProducts([])
         setBasketPrice(0)
@@ -150,7 +150,7 @@ export default function UserOrderRequest() {
                     <h2>Мои запросы</h2>
                     <button onClick={openModal}>Создать новый запрос</button>
                 </header>
-                <Modal id='user_orders' status={status} closeModal={closeModal} buttons={
+                <Modal id='user_orders_request' status={status} closeModal={closeModal} buttons={
                     <>
                         <button className='user_orders_request__create' onClick={createOrderWithRequest}>Отправить
                             запрос

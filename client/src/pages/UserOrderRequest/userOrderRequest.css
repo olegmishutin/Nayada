@@ -23,7 +23,7 @@
 }
 
 .left_modal_panel {
-    max-width: 1300px;
+    max-width: 850px;
 }
 
 .left_modal_panel .product__photos_photo img {
@@ -45,10 +45,11 @@
 
 .right_modal_panel{
     padding-top: 20px;
+    max-width: 700px;
 }
 
-.right_modal_panel .products__list {
-    max-width: 400px;
+.left_modal_panel .products__list{
+    justify-content: flex-end;
 }
 
 .left_modal_panel .products__list::-webkit-scrollbar,

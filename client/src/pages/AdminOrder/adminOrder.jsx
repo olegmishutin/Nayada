@@ -15,12 +15,11 @@ export default function AdminOrder() {
             if (response.status === 200) {
                 setCategories(response.data)
             } else {
-                console.log(response)
+                window.location.href = '/'
             }
         }).catch((error) => {
-            console.log(error)
+            window.location.href = '/'
         })
-
         getOrders()
     }, []);
 

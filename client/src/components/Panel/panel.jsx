@@ -23,10 +23,10 @@ export default function Panel() {
             if (response.status === 200) {
                 setUserType(response.data.user_type)
             } else {
-                console.log(response)
+                setUserType('anon')
             }
         }).catch((error) => {
-            console.log(error)
+            setUserType('anon')
         })
     }, []);
     return (
@@ -87,7 +87,7 @@ export default function Panel() {
                                 <p>Администратор</p>
                                 <li>
                                     <img src={profile} alt='profile' loading='lazy'/>
-                                    <Link to={'admin-users/'} className='link'>Управление пользователями</Link>
+                                    <Link to={'users/'} className='link'>Управление пользователями</Link>
                                 </li>
                                 <li>
                                     <img src={category} alt='category' loading='lazy'/>

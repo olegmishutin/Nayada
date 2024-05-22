@@ -55,6 +55,10 @@ class UserOrderViewSet(viewsets.ModelViewSet):
             self.request.user.orders.filter(request__status='Р').prefetch_related(
                 'categories', 'products', 'products__photos'), self.request.query_params)
 
+    def perform_destroy(self, instance):
+        instance.status = 'ОТ'
+        instance.save(update_fields=['status'])
+
 
 class WorkerOrderViewSet(UpdateModelMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.WorkOrderSerializer
