@@ -12,12 +12,14 @@ import UserOrderRequest from "./pages/UserOrderRequest/userOrderRequest.jsx";
 import Categories from "./pages/Categories/categories.jsx";
 import AdminOrderRequest from "./pages/AdminOrderRequest/adminOrderRequests.jsx";
 import AdminOrder from "./pages/AdminOrder/adminOrder.jsx";
+import ErrorPage from "./pages/ErrorPage/errorPage.jsx";
 import './main.css'
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Index/>,
+        errorElement: <ErrorPage/>,
         children: [
             {
                 path: '/',

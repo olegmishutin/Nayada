@@ -1,9 +1,10 @@
 import {useState, useEffect} from "react"
 import Modal from "../../components/Modal/modal.jsx"
-import ProductsFilter from "../../components/ProductsFilter/productsFilter.jsx"
+import ProductsFilter, {getProductsFilterUrlParams} from "../../components/ProductsFilter/productsFilter.jsx"
 import axios from "axios"
 import './userOrderRequest.css'
 import getErrorMessageFromData from "../../helpers.jsx";
+import NotFound from "../../components/NotFound/notFound.jsx";
 
 export default function UserOrderRequest() {
     const [userRequests, setUserRequests] = useState([])
@@ -32,45 +33,9 @@ export default function UserOrderRequest() {
     }
 
     function getProducts() {
-        let urlParams = ''
-        const checkboxes = [
-            ['new_products', 'new'],
-            ['old_products', 'old'],
-            ['expensive_products', 'expensive'],
-            ['cheap_products', 'cheap']
-        ]
-        const prices = [
-            ['min_price', 'smallestPrice'],
-            ['max_price', 'greatestPrice']
-        ]
-
-        checkboxes.forEach((value) => {
-            const checkbox = document.getElementById(value[0])
-
-            if (checkbox.checked) {
-                if (urlParams) {
-                    urlParams += `&${value[1]}=true`
-                } else {
-                    urlParams += `?${value[1]}=true`
-                }
-            }
-        })
-
-        prices.forEach((value) => {
-            const price = document.getElementById(value[0]).value
-
-            if (price) {
-                if (urlParams) {
-                    urlParams += `&${value[1]}=${price}`
-                } else {
-                    urlParams += `?${value[1]}=${price}`
-                }
-            }
-        })
-
         axios({
             method: 'GET',
-            url: `/api/products/${urlParams}`
+            url: `/api/products/${getProductsFilterUrlParams()}`
         }).then((response) => {
             if (response.status === 200) {
                 setProducts(response.data)
@@ -244,48 +209,50 @@ export default function UserOrderRequest() {
                                placeholder='Небольшой комментарий'/>
                     </div>
                 </Modal>
-                <ul className="orders_requests">
-                    {
-                        userRequests.map((value, key) => {
-                            return (
-                                <>
-                                    <li className='request'>
-                                        <div className="header">
-                                            <h3><b>Номер запроса:</b> {value.identification_number}</h3>
-                                            <p><b>Статус запроса:</b> {value.status}</p>
-                                            <span><b>Стоимость:</b> {value.order.price}р</span>
-                                        </div>
-                                        <ul className="data">
-                                            {
-                                                value.order.products.map((value, key) => {
-                                                    return (
-                                                        <>
-                                                            <li className='product'>
-                                                                <div className="product__photos">
-                                                                    {value.photos[0] ?
-                                                                        <div className="product__photos_photo">
-                                                                            <img src={value.photos[0].photo}
-                                                                                 alt='product photo'/>
-                                                                        </div> : ''
-                                                                    }
-                                                                </div>
-                                                                <div className="product__data">
-                                                                    <p><b>Название:</b> {value.name}</p>
-                                                                    <p><b>Цена:</b> {value.price}р</p>
-                                                                    <p><b>Информация о товаре:</b> {value.info}</p>
-                                                                </div>
-                                                            </li>
-                                                        </>
-                                                    )
-                                                })
-                                            }
-                                        </ul>
-                                    </li>
-                                </>
-                            )
-                        })
-                    }
-                </ul>
+                {userRequests.length > 0 ? <>
+                    <ul className="orders_requests">
+                        {
+                            userRequests.map((value, key) => {
+                                return (
+                                    <>
+                                        <li className='request'>
+                                            <div className="header">
+                                                <h3><b>Номер запроса:</b> {value.identification_number}</h3>
+                                                <p><b>Статус запроса:</b> {value.status}</p>
+                                                <span><b>Стоимость:</b> {value.order.price}р</span>
+                                            </div>
+                                            <ul className="data">
+                                                {
+                                                    value.order.products.map((value, key) => {
+                                                        return (
+                                                            <>
+                                                                <li className='product'>
+                                                                    <div className="product__photos">
+                                                                        {value.photos[0] ?
+                                                                            <div className="product__photos_photo">
+                                                                                <img src={value.photos[0].photo}
+                                                                                     alt='product photo'/>
+                                                                            </div> : ''
+                                                                        }
+                                                                    </div>
+                                                                    <div className="product__data">
+                                                                        <p><b>Название:</b> {value.name}</p>
+                                                                        <p><b>Цена:</b> {value.price}р</p>
+                                                                        <p><b>Информация о товаре:</b> {value.info}</p>
+                                                                    </div>
+                                                                </li>
+                                                            </>
+                                                        )
+                                                    })
+                                                }
+                                            </ul>
+                                        </li>
+                                    </>
+                                )
+                            })
+                        }
+                    </ul>
+                </> : <NotFound/>}
             </div>
         </>
     )

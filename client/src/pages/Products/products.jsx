@@ -1,9 +1,10 @@
 import {useState, useEffect} from "react"
 import axios from "axios"
-import ProductsFilter from "../../components/ProductsFilter/productsFilter.jsx"
+import ProductsFilter, {getProductsFilterUrlParams} from "../../components/ProductsFilter/productsFilter.jsx"
 import Modal from "../../components/Modal/modal.jsx";
 import './products.css'
 import getErrorMessageFromData from "../../helpers.jsx";
+import NotFound from "../../components/NotFound/notFound.jsx";
 
 export default function Products() {
     const [creationProdStatus, setCreationProdStatus] = useState()
@@ -21,45 +22,9 @@ export default function Products() {
     }, []);
 
     function getProducts(event) {
-        let urlParams = ''
-        const checkboxes = [
-            ['new_products', 'new'],
-            ['old_products', 'old'],
-            ['expensive_products', 'expensive'],
-            ['cheap_products', 'cheap']
-        ]
-        const prices = [
-            ['min_price', 'smallestPrice'],
-            ['max_price', 'greatestPrice']
-        ]
-
-        checkboxes.forEach((value) => {
-            const checkbox = document.getElementById(value[0])
-
-            if (checkbox.checked) {
-                if (urlParams) {
-                    urlParams += `&${value[1]}=true`
-                } else {
-                    urlParams += `?${value[1]}=true`
-                }
-            }
-        })
-
-        prices.forEach((value) => {
-            const price = document.getElementById(value[0]).value
-
-            if (price) {
-                if (urlParams) {
-                    urlParams += `&${value[1]}=${price}`
-                } else {
-                    urlParams += `?${value[1]}=${price}`
-                }
-            }
-        })
-
         axios({
             method: 'GET',
-            url: `/api/admin-products/${urlParams}`
+            url: `/api/admin-products/${getProductsFilterUrlParams()}`
         }).then((response) => {
             if (response.status === 200) {
                 setProducts(response.data)
@@ -249,69 +214,71 @@ export default function Products() {
                     </button>
                 </header>
                 <ProductsFilter filterFunc={getProducts}/>
-                <ul className='products__list'>
-                    {products.map((value, key) => {
-                        return (
-                            <>
-                                <li>
-                                    <div className="product__photos">
-                                        {value.photos[0] ?
-                                            value.photos.map((value, key) => {
-                                                return (
-                                                    <>
-                                                        <div className="product__photos_photo">
-                                                            <img src={value.photo} alt='product photo'/>
-                                                            <button className='buttons__delete' onClick={
-                                                                (event) => {
-                                                                    deletePhoto(value.id)
-                                                                    event.preventDefault()
-                                                                }
-                                                            }>Удалить
-                                                            </button>
-                                                        </div>
-                                                    </>
-                                                )
-                                            }) : ''
-                                        }
-                                        <label className="product__photos_photo">
-                                            <input type='file' name='add_product_photo' id='add_product_photo'
-                                                   accept='image/*'
-                                                   onChange={(event) => {
-                                                       addPhoto(value.id, event.target.files[0])
-                                                       event.target.value = ''
-                                                       event.preventDefault()
-                                                   }}/>
-                                            <span>+</span>
-                                        </label>
-                                    </div>
-                                    <div className="product__data">
-                                        <p><b>Название:</b> {value.name}</p>
-                                        <p><b>Цена:</b> {value.price}р</p>
-                                        <p><b>Информация о товаре:</b> {value.info}</p>
-                                        {value.short_description ?
-                                            <p><b>Описание:</b> {value.short_description}</p> : ''}
-                                    </div>
-                                    <div className="product__buttons">
-                                        <button className='edit_product' onClick={
-                                            (event) => {
-                                                openEditProductModal(value.id)
-                                                event.preventDefault()
+                {products.length > 0 ? <>
+                    <ul className='products__list'>
+                        {products.map((value, key) => {
+                            return (
+                                <>
+                                    <li>
+                                        <div className="product__photos">
+                                            {value.photos[0] ?
+                                                value.photos.map((value, key) => {
+                                                    return (
+                                                        <>
+                                                            <div className="product__photos_photo">
+                                                                <img src={value.photo} alt='product photo'/>
+                                                                <button className='buttons__delete' onClick={
+                                                                    (event) => {
+                                                                        deletePhoto(value.id)
+                                                                        event.preventDefault()
+                                                                    }
+                                                                }>Удалить
+                                                                </button>
+                                                            </div>
+                                                        </>
+                                                    )
+                                                }) : ''
                                             }
-                                        }>Изменить
-                                        </button>
-                                        <button className='delete_product' onClick={
-                                            (event) => {
-                                                deleteProduct(value.id)
-                                                event.preventDefault()
-                                            }
-                                        }>Удалить
-                                        </button>
-                                    </div>
-                                </li>
-                            </>
-                        )
-                    })}
-                </ul>
+                                            <label className="product__photos_photo">
+                                                <input type='file' name='add_product_photo' id='add_product_photo'
+                                                       accept='image/*'
+                                                       onChange={(event) => {
+                                                           addPhoto(value.id, event.target.files[0])
+                                                           event.target.value = ''
+                                                           event.preventDefault()
+                                                       }}/>
+                                                <span>+</span>
+                                            </label>
+                                        </div>
+                                        <div className="product__data">
+                                            <p><b>Название:</b> {value.name}</p>
+                                            <p><b>Цена:</b> {value.price}р</p>
+                                            <p><b>Информация о товаре:</b> {value.info}</p>
+                                            {value.short_description ?
+                                                <p><b>Описание:</b> {value.short_description}</p> : ''}
+                                        </div>
+                                        <div className="product__buttons">
+                                            <button className='edit_product' onClick={
+                                                (event) => {
+                                                    openEditProductModal(value.id)
+                                                    event.preventDefault()
+                                                }
+                                            }>Изменить
+                                            </button>
+                                            <button className='delete_product' onClick={
+                                                (event) => {
+                                                    deleteProduct(value.id)
+                                                    event.preventDefault()
+                                                }
+                                            }>Удалить
+                                            </button>
+                                        </div>
+                                    </li>
+                                </>
+                            )
+                        })}
+                    </ul>
+                </> : <NotFound/>}
                 <Modal id='create__products__modal' status={creationProdStatus} closeModal={closeCreateProductsModal}
                        buttons={
                            <>

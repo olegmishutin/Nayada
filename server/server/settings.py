@@ -48,7 +48,7 @@ ROOT_URLCONF = 'server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'client/dist/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -60,6 +60,12 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer'
+    ]
+}
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
@@ -104,6 +110,9 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'  # url до статических файлов (js, css, картинки, видео и тд)
+STATICFILES_DIRS = [
+    BASE_DIR / 'client/dist/assets/'
+]
 
 MEDIA_URL = 'media/'  # url до файлов медиа (которые может добавлять, удалять пользователь)
 MEDIA_ROOT = SERVER_DIR / 'media/'  # Путь до папки медиа

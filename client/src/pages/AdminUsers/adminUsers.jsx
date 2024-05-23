@@ -5,6 +5,7 @@ import axios from "axios"
 
 import userPhoto from '../../images/Profile/user avatar.jpg'
 import './adminUsers.css'
+import NotFound from "../../components/NotFound/notFound.jsx";
 
 export default function AdminUsers() {
     const [users, setUsers] = useState([])
@@ -176,46 +177,49 @@ export default function AdminUsers() {
                         Создать пользователя
                     </button>
                 </header>
-                <ul className='users__list'>
-                    {users.map((value, key) => {
-                        return (
-                            <>
-                                <li>
-                                    <div className="photo">
-                                        <img src={value.photo ? value.photo : userPhoto} alt='photo' loading='lazy'/>
-                                    </div>
-                                    <div className="info">
-                                        <p><b>ФИО:</b> {value.full_name}</p>
-                                        <p><b>Email:</b> {value.email}</p>
-                                        <p><b>Логин:</b> {value.login}</p>
-                                        <p><b>Телефон:</b> {value.telephone}</p>
-                                        <p><b>Тип:</b> {
-                                            value.is_staff ?
-                                                'Админ' : value.is_worker ?
-                                                    'Рабочий' : 'Пользователь'
-                                        }</p>
-                                    </div>
-                                    <div className="buttons">
-                                        <button className='buttons__change' onClick={
-                                            (event) => {
-                                                editUserModalOpen(value.id)
-                                                event.preventDefault()
-                                            }
-                                        }>Изменить
-                                        </button>
-                                        <button className='buttons__delete' onClick={
-                                            (event) => {
-                                                deleteUser(value.id)
-                                                event.preventDefault()
-                                            }
-                                        }>Удалить
-                                        </button>
-                                    </div>
-                                </li>
-                            </>
-                        )
-                    })}
-                </ul>
+                {users.length > 0 ? <>
+                    <ul className='users__list'>
+                        {users.map((value, key) => {
+                            return (
+                                <>
+                                    <li>
+                                        <div className="photo">
+                                            <img src={value.photo ? value.photo : userPhoto} alt='photo'
+                                                 loading='lazy'/>
+                                        </div>
+                                        <div className="info">
+                                            <p><b>ФИО:</b> {value.full_name}</p>
+                                            <p><b>Email:</b> {value.email}</p>
+                                            <p><b>Логин:</b> {value.login}</p>
+                                            <p><b>Телефон:</b> {value.telephone}</p>
+                                            <p><b>Тип:</b> {
+                                                value.is_staff ?
+                                                    'Админ' : value.is_worker ?
+                                                        'Рабочий' : 'Пользователь'
+                                            }</p>
+                                        </div>
+                                        <div className="buttons">
+                                            <button className='buttons__change' onClick={
+                                                (event) => {
+                                                    editUserModalOpen(value.id)
+                                                    event.preventDefault()
+                                                }
+                                            }>Изменить
+                                            </button>
+                                            <button className='buttons__delete' onClick={
+                                                (event) => {
+                                                    deleteUser(value.id)
+                                                    event.preventDefault()
+                                                }
+                                            }>Удалить
+                                            </button>
+                                        </div>
+                                    </li>
+                                </>
+                            )
+                        })}
+                    </ul>
+                </> : <NotFound/>}
                 <Modal id='createUserModal' status={creationStatus} closeModal={createUserModalClose} buttons={
                     <>
                         <button className='createUserButton' onClick={createUser}>Создать</button>

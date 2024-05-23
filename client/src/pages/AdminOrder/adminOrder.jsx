@@ -1,7 +1,8 @@
 import {useState, useEffect} from "react"
-import OrdersFilter from "../../components/OrdersFilter/ordersFilter.jsx";
+import OrdersFilter, {getOrdersFilterUrlParams} from "../../components/OrdersFilter/ordersFilter.jsx";
 import './adminOrder.css'
 import axios from "axios";
+import NotFound from "../../components/NotFound/notFound.jsx";
 
 export default function AdminOrder() {
     const [categories, setCategories] = useState([])
@@ -24,54 +25,9 @@ export default function AdminOrder() {
     }, []);
 
     function getOrders(event) {
-        let urlParams = ''
-        const statuses = []
-
-        const statusCheckboxes = [
-            ['new_order_checkbox', 'Н'],
-            ['processing_order_checkbox', 'О'],
-            ['completed_order_checkbox', 'В'],
-            ['canceled_order_checkbox', 'ОТ']
-        ]
-
-        const priceCheckboxes = [
-            ['expensive_order_checkbox', 'expensive'],
-            ['cheap_order_checkbox', 'cheap']
-        ]
-
-        statusCheckboxes.forEach((value) => {
-            if (document.getElementById(value[0]).checked) {
-                statuses.push(value[1])
-            }
-        })
-
-        if (statuses) {
-            urlParams += `?status=${statuses}`
-        }
-
-        priceCheckboxes.forEach((value) => {
-            if (document.getElementById(value[0]).checked) {
-                if (urlParams) {
-                    urlParams += `&${value[1]}=true`
-                } else {
-                    urlParams += `?${value[1]}=true`
-                }
-            }
-        })
-
-        categories.forEach((value) => {
-            if (document.getElementById(`order-category-${value.id}`).checked) {
-                if (urlParams) {
-                    urlParams += `&category-${value.id}=true`
-                } else {
-                    urlParams += `?category-${value.id}=true`
-                }
-            }
-        })
-
         axios({
             method: 'GET',
-            url: `/api/worker-orders/${urlParams}`
+            url: `/api/worker-orders/${getOrdersFilterUrlParams(categories)}`
         }).then((response) => {
             if (response.status === 200) {
                 setOrders(response.data)
@@ -171,91 +127,103 @@ export default function AdminOrder() {
                     <h2>Управление заказами</h2>
                 </header>
                 <OrdersFilter categories={categories} filterFunc={getOrders}/>
-                <ul className='orders_requests admin_order_request__list admin_order__list'>
-                    {
-                        orders.map((value, key) => {
-                            return (
-                                <>
-                                    <li className='request'>
-                                        <div className="header">
-                                            <h3 className='user'><b>Заказчик:</b> {value.user}</h3>
-                                            <h3><b>Номер заказа:</b> {value.identification_number}</h3>
-                                            <p><b>Статус заказа:</b> <select value={value.status} onChange={
-                                                (e) => {
-                                                    changeOrderStatus(value.id, e.target.value)
-                                                    e.preventDefault()
+                {orders.length > 0 ? <>
+                    <ul className='orders_requests admin_order_request__list admin_order__list'>
+                        {
+                            orders.map((value, key) => {
+                                return (
+                                    <>
+                                        <li className='request'>
+                                            <div className="header">
+                                                <h3 className='user'><b>Заказчик:</b> {value.user}</h3>
+                                                <h3><b>Номер заказа:</b> {value.identification_number}</h3>
+                                                <p><b>Статус заказа:</b> <select value={value.status} onChange={
+                                                    (e) => {
+                                                        changeOrderStatus(value.id, e.target.value)
+                                                        e.preventDefault()
+                                                    }
+                                                }>
+                                                    <option value='Н'>Новый</option>
+                                                    <option value='О'>В обработке</option>
+                                                    <option value='В'>Выполнен</option>
+                                                    <option value='ОТ'>Отменен</option>
+                                                </select></p>
+                                                <span><b>Стоимость:</b> {value.price}р</span>
+                                                <span className='place'><b>Место:</b> {value.place}</span>
+                                                {
+                                                    value.comment ? <>
+                                                        <span
+                                                            className='comment'><b>Комментарий:</b> {value.comment}</span>
+                                                    </> : ''
                                                 }
-                                            }>
-                                                <option value='Н'>Новый</option>
-                                                <option value='О'>В обработке</option>
-                                                <option value='В'>Выполнен</option>
-                                                <option value='ОТ'>Отменен</option>
-                                            </select></p>
-                                            <span><b>Стоимость:</b> {value.price}р</span>
-                                            <span className='place'><b>Место:</b> {value.place}</span>
-                                        </div>
-                                        <ul className="data">
-                                            {
-                                                value.products.map((product, key) => {
-                                                    return (
-                                                        <>
-                                                            <li className='product'>
-                                                                <div className="product__photos">
-                                                                    {product.photos[0] ?
-                                                                        <div className="product__photos_photo">
-                                                                            <img src={product.photos[0].photo}
-                                                                                 alt='product photo'/>
-                                                                        </div> : ''
-                                                                    }
-                                                                </div>
-                                                                <div className="product__data">
-                                                                    <p><b>Название:</b> {product.name}</p>
-                                                                    <p><b>Цена:</b> {product.price}р</p>
-                                                                    <p><b>Информация о товаре:</b> {product.info}</p>
-                                                                </div>
-                                                            </li>
-                                                        </>
-                                                    )
-                                                })
-                                            }
-                                        </ul>
-                                        <p className='admin_order__list__category_name'><b>Категории заказа</b></p>
-                                        <ul className='orders_filter__filters'>
-                                            {
-                                                categories.map((category, key) => {
-                                                    return (
-                                                        <>
-                                                            <li className='orders_filter__box'>
-                                                                <p>{category.name}</p>
-                                                                {
-                                                                    value.categories.find(obj => obj.id === category.id) !== undefined ?
-                                                                        <>
-                                                                            <button onClick={(e) => {
-                                                                                removeCategoryFromOrder(value, category.id)
-                                                                                e.preventDefault()
-                                                                            }}>-
-                                                                            </button>
-                                                                        </> :
-                                                                        <>
-                                                                            <button onClick={(e) => {
-                                                                                addCategoryToOrder(value, category.id)
-                                                                                e.preventDefault()
-                                                                            }}>+
-                                                                            </button>
-                                                                        </>
-                                                                }
-                                                            </li>
-                                                        </>
-                                                    )
-                                                })
-                                            }
-                                        </ul>
-                                    </li>
-                                </>
-                            )
-                        })
-                    }
-                </ul>
+                                            </div>
+                                            <ul className="data">
+                                                {
+                                                    value.products.map((product, key) => {
+                                                        return (
+                                                            <>
+                                                                <li className='product'>
+                                                                    <div className="product__photos">
+                                                                        {product.photos[0] ?
+                                                                            <div className="product__photos_photo">
+                                                                                <img src={product.photos[0].photo}
+                                                                                     alt='product photo'/>
+                                                                            </div> : ''
+                                                                        }
+                                                                    </div>
+                                                                    <div className="product__data">
+                                                                        <p><b>Название:</b> {product.name}</p>
+                                                                        <p><b>Цена:</b> {product.price}р</p>
+                                                                        <p><b>Информация о товаре:</b> {product.info}
+                                                                        </p>
+                                                                    </div>
+                                                                </li>
+                                                            </>
+                                                        )
+                                                    })
+                                                }
+                                            </ul>
+                                            {categories.length > 0 ? <>
+                                                <p className='admin_order__list__category_name'><b>Категории заказа</b>
+                                                </p>
+                                                <ul className='orders_filter__filters'>
+                                                    {
+                                                        categories.map((category, key) => {
+                                                            return (
+                                                                <>
+                                                                    <li className='orders_filter__box'>
+                                                                        <p>{category.name}</p>
+                                                                        {
+                                                                            value.categories.find(obj => obj.id === category.id) !== undefined ?
+                                                                                <>
+                                                                                    <button onClick={(e) => {
+                                                                                        removeCategoryFromOrder(value, category.id)
+                                                                                        e.preventDefault()
+                                                                                    }}>-
+                                                                                    </button>
+                                                                                </> :
+                                                                                <>
+                                                                                    <button onClick={(e) => {
+                                                                                        addCategoryToOrder(value, category.id)
+                                                                                        e.preventDefault()
+                                                                                    }}>+
+                                                                                    </button>
+                                                                                </>
+                                                                        }
+                                                                    </li>
+                                                                </>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
+                                            </> : ''}
+                                        </li>
+                                    </>
+                                )
+                            })
+                        }
+                    </ul>
+                </> : <NotFound/>}
             </div>
         </>
     )

@@ -35,7 +35,6 @@ export default function Panel() {
                 <Link to={'/'} className="panel__logo">
                     <img src={logo} alt='logo' loading='lazy'/>
                 </Link>
-                <h1>Order Book</h1>
                 <nav className='panel__nav'>
                     <ul className='panel__nav__list'>
                         {userType !== 'anon' ?
@@ -55,6 +54,7 @@ export default function Panel() {
                                 </li>
                             </> :
                             <>
+                                <p>Аноним</p>
                                 <li>
                                     <img src={login} alt='request' loading='lazy'/>
                                     <Link to={'login/'} className='link'>Войти</Link>

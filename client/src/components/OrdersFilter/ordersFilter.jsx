@@ -32,24 +32,75 @@ export default function OrdersFilter(props) {
                         <label htmlFor='cheap_order_checkbox'>Сначала дешевые</label>
                     </div>
                 </form>
-                <h4 className='orders_filter__header_text'>Фильтры категорий</h4>
-                <ul className='orders_filter__filters'>
-                    {
-                        props.categories.map((value, key) => {
-                            return (
-                                <>
-                                    <li className='orders_filter__box'>
-                                        <input type='checkbox' name={`category-${value.id}`}
-                                               id={`order-category-${value.id}`}/>
-                                        <label for={`order-category-${value.id}`}>{value.name}</label>
-                                    </li>
-                                </>
-                            )
-                        })
-                    }
-                </ul>
+                {props.categories.length > 0 ? <>
+                    <h4 className='orders_filter__header_text'>Фильтры категорий</h4>
+                    <ul className='orders_filter__filters'>
+                        {
+                            props.categories.map((value, key) => {
+                                return (
+                                    <>
+                                        <li className='orders_filter__box'>
+                                            <input type='checkbox' name={`category-${value.id}`}
+                                                   id={`order-category-${value.id}`}/>
+                                            <label htmlFor={`order-category-${value.id}`}>{value.name}</label>
+                                        </li>
+                                    </>
+                                )
+                            })
+                        }
+                    </ul>
+                </> : ''}
                 <button onClick={props.filterFunc} className='orders_filter__button'>Отфильтровать</button>
             </div>
         </>
     )
+}
+
+export function getOrdersFilterUrlParams(categories) {
+    let urlParams = ''
+    const statuses = []
+
+    const statusCheckboxes = [
+        ['new_order_checkbox', 'Н'],
+        ['processing_order_checkbox', 'О'],
+        ['completed_order_checkbox', 'В'],
+        ['canceled_order_checkbox', 'ОТ']
+    ]
+
+    const priceCheckboxes = [
+        ['expensive_order_checkbox', 'expensive'],
+        ['cheap_order_checkbox', 'cheap']
+    ]
+
+    statusCheckboxes.forEach((value) => {
+        if (document.getElementById(value[0]).checked) {
+            statuses.push(value[1])
+        }
+    })
+
+    if (statuses) {
+        urlParams += `?status=${statuses}`
+    }
+
+    priceCheckboxes.forEach((value) => {
+        if (document.getElementById(value[0]).checked) {
+            if (urlParams) {
+                urlParams += `&${value[1]}=true`
+            } else {
+                urlParams += `?${value[1]}=true`
+            }
+        }
+    })
+
+    categories.forEach((value) => {
+        if (document.getElementById(`order-category-${value.id}`).checked) {
+            if (urlParams) {
+                urlParams += `&category-${value.id}=true`
+            } else {
+                urlParams += `?category-${value.id}=true`
+            }
+        }
+    })
+
+    return urlParams
 }

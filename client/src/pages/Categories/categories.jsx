@@ -3,6 +3,7 @@ import Modal from "../../components/Modal/modal.jsx"
 import getErrorMessageFromData from "../../helpers.jsx";
 import axios from "axios"
 import './categories.css'
+import NotFound from "../../components/NotFound/notFound.jsx";
 
 export default function Categories() {
     const [creatingStatus, setCreatingStatus] = useState('')
@@ -138,33 +139,35 @@ export default function Categories() {
                         Создать категорию
                     </button>
                 </header>
-                <ul className='categories__list'>
-                    {
-                        categories.map((value, key) => {
-                            return (
-                                <>
-                                    <li className='categories__list__category'>
-                                        <h3>{value.name}</h3>
-                                        <div className="buttons">
-                                            <button className='edit' onClick={
-                                                (event) => {
-                                                    openEditCategoryModal(value)
-                                                }
-                                            }>Изменить
-                                            </button>
-                                            <button className='delete' onClick={
-                                                (event) => {
-                                                    deleteCategory(value.id)
-                                                }
-                                            }>Удалить
-                                            </button>
-                                        </div>
-                                    </li>
-                                </>
-                            )
-                        })
-                    }
-                </ul>
+                {categories.length > 0 ? <>
+                    <ul className='categories__list'>
+                        {
+                            categories.map((value, key) => {
+                                return (
+                                    <>
+                                        <li className='categories__list__category'>
+                                            <h3>{value.name}</h3>
+                                            <div className="buttons">
+                                                <button className='edit' onClick={
+                                                    (event) => {
+                                                        openEditCategoryModal(value)
+                                                    }
+                                                }>Изменить
+                                                </button>
+                                                <button className='delete' onClick={
+                                                    (event) => {
+                                                        deleteCategory(value.id)
+                                                    }
+                                                }>Удалить
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </>
+                                )
+                            })
+                        }
+                    </ul>
+                </> : <NotFound/>}
                 <Modal id='create_category_modal' status={creatingStatus} closeModal={closeCreateCategoryModal}
                        buttons={
                            <>

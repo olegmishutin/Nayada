@@ -89,11 +89,11 @@ class WorkOrderSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         categories = validated_data.pop('categories', [])
 
-        if self.initial_data.get('categories'):
+        if not self.initial_data.get('status'):
             instance.categories.clear()
 
-        if categories:
-            instance.categories.add(*categories)
+            if categories:
+                instance.categories.add(*categories)
 
         return super(WorkOrderSerializer, self).update(instance, validated_data)
 

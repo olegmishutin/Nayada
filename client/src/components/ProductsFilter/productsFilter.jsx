@@ -33,3 +33,43 @@ export default function ProductsFilter(props) {
         </>
     )
 }
+
+export function getProductsFilterUrlParams() {
+    let urlParams = ''
+    const checkboxes = [
+        ['new_products', 'new'],
+        ['old_products', 'old'],
+        ['expensive_products', 'expensive'],
+        ['cheap_products', 'cheap']
+    ]
+    const prices = [
+        ['min_price', 'smallestPrice'],
+        ['max_price', 'greatestPrice']
+    ]
+
+    checkboxes.forEach((value) => {
+        const checkbox = document.getElementById(value[0])
+
+        if (checkbox.checked) {
+            if (urlParams) {
+                urlParams += `&${value[1]}=true`
+            } else {
+                urlParams += `?${value[1]}=true`
+            }
+        }
+    })
+
+    prices.forEach((value) => {
+        const price = document.getElementById(value[0]).value
+
+        if (price) {
+            if (urlParams) {
+                urlParams += `&${value[1]}=${price}`
+            } else {
+                urlParams += `?${value[1]}=${price}`
+            }
+        }
+    })
+
+    return urlParams
+}

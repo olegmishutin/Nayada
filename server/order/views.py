@@ -24,7 +24,7 @@ def filter_queryset(queryset, params):
         retQueryset = retQueryset.filter(status__in=statuses)
 
     filter = [value for key, value in filtersCheckboxex.items() if params.get(key)]
-    return retQueryset.order_by(*filter, '-creation_time')
+    return retQueryset.order_by(*filter, '-creation_time').distinct('price', 'creation_time', 'identification_number')
 
 
 class UserOrderRequestViewSet(viewsets.ReadOnlyModelViewSet):

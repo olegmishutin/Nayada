@@ -1,12 +1,13 @@
 import {useState, useEffect} from "react"
 import Modal from "../../components/Modal/modal.jsx"
-import OrdersFilter from "../../components/OrdersFilter/ordersFilter.jsx";
+import OrdersFilter, {getOrdersFilterUrlParams} from "../../components/OrdersFilter/ordersFilter.jsx";
 import axios from "axios"
 
 import './orders.css'
 import anonImage from '../../images/Auth/anon image.jpg'
-import ProductsFilter from "../../components/ProductsFilter/productsFilter.jsx";
+import ProductsFilter, {getProductsFilterUrlParams} from "../../components/ProductsFilter/productsFilter.jsx";
 import getErrorMessageFromData from "../../helpers.jsx";
+import NotFound from "../../components/NotFound/notFound.jsx";
 
 export default function Orders() {
     const [userType, setUserType] = useState('')
@@ -51,59 +52,14 @@ export default function Orders() {
     }, []);
 
     function getOrders(event) {
-        let urlParams = ''
-        const statuses = []
-
-        const statusCheckboxes = [
-            ['new_order_checkbox', 'Н'],
-            ['processing_order_checkbox', 'О'],
-            ['completed_order_checkbox', 'В'],
-            ['canceled_order_checkbox', 'ОТ']
-        ]
-
-        const priceCheckboxes = [
-            ['expensive_order_checkbox', 'expensive'],
-            ['cheap_order_checkbox', 'cheap']
-        ]
-
-        statusCheckboxes.forEach((value) => {
-            if (document.getElementById(value[0]).checked) {
-                statuses.push(value[1])
-            }
-        })
-
-        if (statuses) {
-            urlParams += `?status=${statuses}`
-        }
-
-        priceCheckboxes.forEach((value) => {
-            if (document.getElementById(value[0]).checked) {
-                if (urlParams) {
-                    urlParams += `&${value[1]}=true`
-                } else {
-                    urlParams += `?${value[1]}=true`
-                }
-            }
-        })
-
-        categories.forEach((value) => {
-            if (document.getElementById(`order-category-${value.id}`).checked) {
-                if (urlParams) {
-                    urlParams += `&category-${value.id}=true`
-                } else {
-                    urlParams += `?category-${value.id}=true`
-                }
-            }
-        })
-
         axios({
             method: 'GET',
-            url: `/api/user-orders/${urlParams}`
+            url: `/api/user-orders/${getOrdersFilterUrlParams(categories)}`
         }).then((response) => {
             if (response.status === 200) {
                 setOrders(response.data)
             } else {
-                console.log(error)
+                console.log(response)
             }
         }).catch((error) => {
             console.log(error)
@@ -115,45 +71,9 @@ export default function Orders() {
     }
 
     function getProducts() {
-        let urlParams = ''
-        const checkboxes = [
-            ['new_products', 'new'],
-            ['old_products', 'old'],
-            ['expensive_products', 'expensive'],
-            ['cheap_products', 'cheap']
-        ]
-        const prices = [
-            ['min_price', 'smallestPrice'],
-            ['max_price', 'greatestPrice']
-        ]
-
-        checkboxes.forEach((value) => {
-            const checkbox = document.getElementById(value[0])
-
-            if (checkbox.checked) {
-                if (urlParams) {
-                    urlParams += `&${value[1]}=true`
-                } else {
-                    urlParams += `?${value[1]}=true`
-                }
-            }
-        })
-
-        prices.forEach((value) => {
-            const price = document.getElementById(value[0]).value
-
-            if (price) {
-                if (urlParams) {
-                    urlParams += `&${value[1]}=${price}`
-                } else {
-                    urlParams += `?${value[1]}=${price}`
-                }
-            }
-        })
-
         axios({
             method: 'GET',
-            url: `/api/products/${urlParams}`
+            url: `/api/products/${getProductsFilterUrlParams()}`
         }).then((response) => {
             if (response.status === 200) {
                 setProducts(response.data)
@@ -364,89 +284,98 @@ export default function Orders() {
                             }}/>
                         </div>
                     </Modal>
-                    <ul className='orders_requests admin_order_request__list admin_order__list'>
-                        {
-                            orders.map((value, key) => {
-                                return (
-                                    <>
-                                        <li className='request'>
-                                            <div className="header">
-                                                <h3><b>Номер заказа:</b> {value.identification_number}</h3>
-                                                <p><b>Статус заказа:</b> {value.status}</p>
-                                                <span><b>Стоимость:</b> {value.price}р</span>
-                                                <span className='place'><b>Место:</b> {value.place}</span>
-                                            </div>
-                                            <ul className="data">
+                    {orders.length > 0 ? <>
+                        <ul className='orders_requests admin_order_request__list admin_order__list'>
+                            {
+                                orders.map((value, key) => {
+                                    return (
+                                        <>
+                                            <li className='request'>
+                                                <div className="header">
+                                                    <h3><b>Номер заказа:</b> {value.identification_number}</h3>
+                                                    <p><b>Статус заказа:</b> {value.status}</p>
+                                                    <span><b>Стоимость:</b> {value.price}р</span>
+                                                    <span className='place'><b>Место:</b> {value.place}</span>
+                                                    {
+                                                        value.comment ? <>
+                                                        <span
+                                                            className='comment'><b>Комментарий:</b> {value.comment}</span>
+                                                        </> : ''
+                                                    }
+                                                </div>
+                                                <ul className="data">
+                                                    {
+                                                        value.products.map((product, key) => {
+                                                            return (
+                                                                <>
+                                                                    <li className='product'>
+                                                                        <div className="product__photos">
+                                                                            {product.photos[0] ?
+                                                                                <div className="product__photos_photo">
+                                                                                    <img src={product.photos[0].photo}
+                                                                                         alt='product photo'/>
+                                                                                </div> : ''
+                                                                            }
+                                                                        </div>
+                                                                        <div className="product__data">
+                                                                            <p><b>Название:</b> {product.name}</p>
+                                                                            <p><b>Цена:</b> {product.price}р</p>
+                                                                            <p><b>Информация о
+                                                                                товаре:</b> {product.info}
+                                                                            </p>
+                                                                        </div>
+                                                                    </li>
+                                                                </>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
                                                 {
-                                                    value.products.map((product, key) => {
-                                                        return (
-                                                            <>
-                                                                <li className='product'>
-                                                                    <div className="product__photos">
-                                                                        {product.photos[0] ?
-                                                                            <div className="product__photos_photo">
-                                                                                <img src={product.photos[0].photo}
-                                                                                     alt='product photo'/>
-                                                                            </div> : ''
-                                                                        }
-                                                                    </div>
-                                                                    <div className="product__data">
-                                                                        <p><b>Название:</b> {product.name}</p>
-                                                                        <p><b>Цена:</b> {product.price}р</p>
-                                                                        <p><b>Информация о товаре:</b> {product.info}
-                                                                        </p>
-                                                                    </div>
-                                                                </li>
-                                                            </>
-                                                        )
-                                                    })
-                                                }
-                                            </ul>
-                                            {
-                                                value.categories.length ? <>
-                                                    <p className='admin_order__list__category_name'><b>Категории
-                                                        заказа</b></p>
-                                                    <ul className='orders_filter__filters'>
-                                                        {
-                                                            value.categories.map((category, key) => {
-                                                                return (
-                                                                    <>
-                                                                        <li className='orders_filter__box'>
-                                                                            <p>{category.name}</p>
-                                                                        </li>
-                                                                    </>
-                                                                )
-                                                            })
-                                                        }
-                                                    </ul>
-                                                </> : ''
-                                            }
-                                            <div className="my_orders__control_buttons">
-                                                {
-                                                    value.status === 'Новый' ? <>
-                                                        <button className='my_orders__control_buttons__edit'
-                                                                onClick={(e) => {
-                                                                    openModal(value)
-                                                                }}>Изменить
-                                                        </button>
+                                                    value.categories.length ? <>
+                                                        <p className='admin_order__list__category_name'><b>Категории
+                                                            заказа</b></p>
+                                                        <ul className='orders_filter__filters'>
+                                                            {
+                                                                value.categories.map((category, key) => {
+                                                                    return (
+                                                                        <>
+                                                                            <li className='orders_filter__box'>
+                                                                                <p>{category.name}</p>
+                                                                            </li>
+                                                                        </>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </ul>
                                                     </> : ''
                                                 }
-                                                {
-                                                    value.status !== 'Выполнен' && value.status !== 'Отменен' ? <>
-                                                        <button className='my_orders__control_buttons__delete'
-                                                                onClick={(e) => {
-                                                                    cancelOrder(value.id)
-                                                                }}>Отменить
-                                                        </button>
-                                                    </> : ''
-                                                }
-                                            </div>
-                                        </li>
-                                    </>
-                                )
-                            })
-                        }
-                    </ul>
+                                                <div className="my_orders__control_buttons">
+                                                    {
+                                                        value.status === 'Новый' ? <>
+                                                            <button className='my_orders__control_buttons__edit'
+                                                                    onClick={(e) => {
+                                                                        openModal(value)
+                                                                    }}>Изменить
+                                                            </button>
+                                                        </> : ''
+                                                    }
+                                                    {
+                                                        value.status !== 'Выполнен' && value.status !== 'Отменен' ? <>
+                                                            <button className='my_orders__control_buttons__delete'
+                                                                    onClick={(e) => {
+                                                                        cancelOrder(value.id)
+                                                                    }}>Отменить
+                                                            </button>
+                                                        </> : ''
+                                                    }
+                                                </div>
+                                            </li>
+                                        </>
+                                    )
+                                })
+                            }
+                        </ul>
+                    </> : <NotFound/>}
                 </div>
             </> : <>
                 <div className="anon">
