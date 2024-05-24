@@ -2,6 +2,7 @@ from rest_framework.permissions import BasePermission
 from .models import Order
 
 
+# Класс-разрешение для проверки того, что пользователь является хозяином заказа, и того, что он может изменить заказ, если статус заказа это позволяет
 class IsOwnerAndSafeStatus(BasePermission):
     message = 'Статус заказа не позволяет проводить над ним изменения'
 

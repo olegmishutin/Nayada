@@ -18,10 +18,12 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
+    # Переписанный метод обновления данных (Обрабатывает PATH и PUT запросы)
     def update(self, instance, validated_data):
         updatedProduct = super(ProductSerializer, self).update(instance, validated_data)
         productOrders = instance.orderProduct.all().select_related('order')
 
+        # Обновляем данные о цене заказа при изменении цены продуктов
         for orderProduct in productOrders:
             order = orderProduct.order
             order.price = order.products.all().aggregate(priceSum=Sum('price'))['priceSum']

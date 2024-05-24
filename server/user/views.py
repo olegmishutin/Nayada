@@ -8,6 +8,7 @@ from .models import User
 from . import serializers
 
 
+# Конечная точка API (представление) для предоставления типа пользователя
 @api_view(['GET'])
 def getUserType(request, format=None):
     user = request.user

@@ -1,6 +1,7 @@
 from rest_framework.permissions import BasePermission
 
 
+# Класс-разрешение для проверки того, что пользователь является администратором или работником
 class IsWorkerOrAdmin(BasePermission):
     message = 'Доступ запрещен, так как вы не явлетесь сотрудником'
 

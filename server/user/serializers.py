@@ -53,6 +53,7 @@ class LoginSerializer(serializers.ModelSerializer):
         model = User
         fields = ['login', 'password']
 
+    # Перепись метода, который срабатывает при получении данных из запроса
     def to_internal_value(self, data):
         login = data.get('login')
         returnData = super(LoginSerializer, self).to_internal_value(data)

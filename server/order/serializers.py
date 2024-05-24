@@ -30,6 +30,7 @@ class UserOrderSerializer(serializers.ModelSerializer):
             return returnedData
         raise serializers.ValidationError({'products': ['Не выбрано ни одного продукта']})
 
+    # Метод добавляющий продукты в заказ и сохранающий заказ (понадобится далее)
     def addProductsInOrder(self, order, products, oldProducts=None):
         request = self.context['request']
 
@@ -50,15 +51,17 @@ class UserOrderSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError(
             {'message': 'Стоимость заказа должна начинаться с 500р и быть не больше 100000р'})
 
+    # Перепись метода обновления для того, чтобы можно было изменить список продуктов
     def update(self, instance, validated_data):
         products = validated_data.pop('products', [])
         oldProductsIds = list(instance.products.all().values_list('id', flat=True))
 
         instance.products.clear()
-        self.addProductsInOrder(instance, products, oldProductsIds)
+        self.addProductsInOrder(instance, products, oldProductsIds)  # Вызов ранее описанного метода
 
         return super(UserOrderSerializer, self).update(instance, validated_data)
 
+    # Перепись метода создания для добавления продуктов в заказ
     def create(self, validated_data):
         user = self.context['request'].user
 
@@ -66,7 +69,7 @@ class UserOrderSerializer(serializers.ModelSerializer):
         order = Order.objects.create(user=user, **validated_data)
 
         OrderRequest.objects.create(order=order)
-        return self.addProductsInOrder(order, products)
+        return self.addProductsInOrder(order, products)  # Вызов ранее описанного метода, который вернет данные заказа
 
 
 class WorkOrderSerializer(serializers.ModelSerializer):
