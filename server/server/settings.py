@@ -77,7 +77,7 @@ dbConf = config['DB_CONF']
 # Настройки для БД
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': f'django.db.backends.{dbConf["DB_VER"]}',
         'NAME': dbConf['NAME'],
         'USER': dbConf['USER'],
         'PASSWORD': dbConf['PASSWORD'],
