@@ -1,6 +1,29 @@
 import './productsFilter.css'
 
 export default function ProductsFilter(props) {
+    function resetFilters(func) {
+        const checkboxes = [
+            'new_products',
+            'old_products',
+            'expensive_products',
+            'cheap_products'
+        ]
+        const prices = [
+            'min_price',
+            'max_price'
+        ]
+
+        checkboxes.forEach((value) => {
+            document.getElementById(value).checked = false
+        })
+
+        prices.forEach((value) => {
+            document.getElementById(value).value = ''
+        })
+
+        func()
+    }
+
     return (
         <>
             <form className="products__filters">
@@ -29,6 +52,10 @@ export default function ProductsFilter(props) {
                     </li>
                 </ul>
                 <button type='button' onClick={props.filterFunc}>Фильтровать</button>
+                <button type='button' onClick={() => {
+                    resetFilters(props.filterFunc)
+                }}>Сбросить
+                </button>
             </form>
         </>
     )

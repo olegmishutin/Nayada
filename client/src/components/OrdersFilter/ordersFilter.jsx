@@ -1,6 +1,27 @@
 import './ordersFilter.css'
 
 export default function OrdersFilter(props) {
+    function resetFilter(func) {
+        const checkboxes = [
+            'new_order_checkbox',
+            'processing_order_checkbox',
+            'completed_order_checkbox',
+            'canceled_order_checkbox',
+            'expensive_order_checkbox',
+            'cheap_order_checkbox'
+        ]
+
+        checkboxes.forEach((value) => {
+            document.getElementById(value).checked = false
+        })
+
+        props.categories.forEach((value) => {
+            document.getElementById(`order-category-${value.id}`).checked = false
+        })
+
+        func()
+    }
+
     return (
         <>
             <div className="orders_filter">
@@ -50,7 +71,13 @@ export default function OrdersFilter(props) {
                         }
                     </ul>
                 </> : ''}
-                <button onClick={props.filterFunc} className='orders_filter__button'>Отфильтровать</button>
+                <div className="orders_filter__button_box">
+                    <button onClick={props.filterFunc} className='orders_filter__button'>Отфильтровать</button>
+                    <button onClick={() => {
+                        resetFilter(props.filterFunc)
+                    }} className='orders_filter__button'>Сбросить
+                    </button>
+                </div>
             </div>
         </>
     )
